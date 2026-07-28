@@ -1,0 +1,129 @@
+/* rellui themes — switch by setting data-theme on <html> or any wrapper */
+
+[data-theme="warm"] {
+    --color-gold: #d7b569;
+    --color-sage: #7f9b7d;
+    --color-indigo: #2f52a0;
+    --color-blush: #f9c6c0;
+    --color-clay: #eb5b29;
+    --color-charcoal: #333332;
+    --color-cream: #FDFAF6;
+    --color-mint: #bfe1db;
+    --color-sand: #ccbfa1;
+    --color-success: #7f9b7d;
+    --color-warning: #d7b569;
+    --color-danger: #eb5b29;
+    --color-accent: #2f52a0;
+}
+
+[data-theme="mono"] {
+    --color-gold: #737373;
+    --color-sage: #525252;
+    --color-indigo: #171717;
+    --color-blush: #e5e5e5;
+    --color-clay: #dc2626;
+    --color-charcoal: #000000;
+    --color-cream: #ffffff;
+    --color-mint: #a3a3a3;
+    --color-sand: #d4d4d4;
+    --color-success: #16a34a;
+    --color-warning: #d97706;
+    --color-danger: #dc2626;
+    --color-accent: #2563eb;
+}
+
+@theme {
+    --color-gold: var(--color-gold);
+    --color-sage: var(--color-sage);
+    --color-indigo: var(--color-indigo);
+    --color-blush: var(--color-blush);
+    --color-clay: var(--color-clay);
+    --color-charcoal: var(--color-charcoal);
+    --color-cream: var(--color-cream);
+    --color-mint: var(--color-mint);
+    --color-sand: var(--color-sand);
+    --color-success: var(--color-success);
+    --color-warning: var(--color-warning);
+    --color-danger: var(--color-danger);
+    --color-accent: var(--color-accent);
+
+    --font-sans: "Liter", ui-sans-serif, sans-serif;
+}
+html {
+    font-family: var(--font-sans);
+}
+
+@keyframes modal-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes modal-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+@keyframes modal-pop-in {
+    from { opacity: 0; transform: scale(0.95) translateY(6px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes modal-pop-out {
+    from { opacity: 1; transform: scale(1) translateY(0); }
+    to { opacity: 0; transform: scale(0.97) translateY(4px); }
+}
+@keyframes toast-slide-in {
+    from { opacity: 0; transform: translateX(120%); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toast-slide-out {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(120%); }
+}
+
+.rellui-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-sand) transparent;
+}
+.rellui-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.rellui-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.rellui-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-sand);
+    border-radius: 9999px;
+}
+.rellui-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-charcoal);
+}
+.rellui-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    -webkit-appearance: none;
+    height: 0;
+    width: 0;
+}
+
+.rellui-toast-region {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+}
+
+::view-transition-old(.rellui-toast),
+::view-transition-new(.rellui-toast) {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+::view-transition-group(.rellui-toast) {
+    animation-duration: 180ms;
+    animation-timing-function: ease-out;
+}
+
+::view-transition-old(.rellui-toast):only-child {
+    animation: toast-slide-out 180ms ease-in forwards;
+}
+::view-transition-new(.rellui-toast):only-child {
+    animation: toast-slide-in 200ms ease-out forwards;
+}
