@@ -8,24 +8,20 @@ Every component wraps a real React Aria primitive underneath — accessibility (
 
 Inside a project:
 
-```json
-"dependencies": {
-    "rellui": "file:../rellui"
-}
+```bash
+npm i @rell333/rellui@lastest
 ```
 
-```bash
-npm install
-```
 
 Requires **React 19+** and **Tailwind CSS v4**.
 
 In your `globals.css`:
 
 ```css
+@import url('https://fonts.googleapis.com/css2?family=Liter&display=swap');
 @import "tailwindcss";
-@import "rellui/theme.css";
-@source "../node_modules/rellui/dist";
+@import "@rell333/rellui/theme.css";
+@source "../node_modules/@rell333/rellui/dist";
 ```
 
 The `@source` line is what lets Tailwind generate utility classes from rellui's compiled output — without it, every component renders completely unstyled.
