@@ -1336,7 +1336,7 @@ import { useState as useState4 } from "react";
 import { tv as tv28 } from "tailwind-variants";
 import { jsx as jsx29 } from "react/jsx-runtime";
 var avatar = tv28({
-  base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none",
+  base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none leading-none align-top",
   variants: {
     size: {
       xs: "size-6 text-xs",
@@ -1388,7 +1388,7 @@ var overflow = tv29({
   defaultVariants: { size: "md" }
 });
 var stackItem = tv29({
-  base: "shrink-0 ring-2 ring-cream rounded-full"
+  base: "inline-flex shrink-0 ring-2 ring-cream rounded-full"
 });
 function AvatarGroup({ children, max = 4, size = "md", className }) {
   const items = Children.toArray(children).filter(isValidElement);

@@ -18,7 +18,7 @@ const overflow = tv({
 })
 
 const stackItem = tv({
-    base: "shrink-0 ring-2 ring-cream rounded-full",
+    base: "inline-flex shrink-0 ring-2 ring-cream rounded-full",
 })
 
 export interface AvatarGroupProps {

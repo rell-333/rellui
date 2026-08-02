@@ -3,7 +3,7 @@ import { useState } from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
 const avatar = tv({
-    base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none",
+    base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none leading-none align-top",
     variants: {
         size: {
             xs: "size-6 text-xs",

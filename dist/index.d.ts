@@ -457,7 +457,7 @@ declare const avatar: tailwind_variants.TVReturnType<{
         lg: "size-14 text-lg";
         xl: "size-20 text-2xl";
     };
-}, undefined, "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none", {
+}, undefined, "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none leading-none align-top", {
     size: {
         xs: "size-6 text-xs";
         sm: "size-8 text-sm";
