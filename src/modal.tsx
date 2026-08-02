@@ -42,6 +42,7 @@ const container = tv({
             md: "max-w-md",
             lg: "max-w-lg",
             cover: "max-h-[90vh] max-w-4xl",
+            xl: "max-h-[90vh] max-w-7xl",
         },
     },
     defaultVariants: { size: "md" },

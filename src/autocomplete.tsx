@@ -20,7 +20,7 @@ interface AutocompleteContextValue {
     setIsOpen: (open: boolean) => void
     selectedKey: Key | null
     onSelectionChange: (key: Key | null) => void
-    triggerRef: RefObject<HTMLButtonElement | null>
+    triggerRef: RefObject<HTMLDivElement | null>
 }
 
 const AutocompleteContext = createContext<AutocompleteContextValue | null>(null)
@@ -31,8 +31,8 @@ function useAutocompleteContext() {
     return ctx
 }
 
-const triggerButton = tv({
-    base: "flex w-full items-center justify-between gap-2 rounded-xl border-[1.5px] border-sand bg-cream px-3 py-2 text-sm text-charcoal outline-none transition-colors data-[hovered]:border-charcoal/40 data-[focus-visible]:border-charcoal data-[focus-visible]:ring-2 data-[focus-visible]:ring-charcoal/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+const triggerDiv = tv({
+    base: "flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl border-[1.5px] border-sand bg-cream px-3 py-2 text-sm text-charcoal outline-none transition-colors hover:border-charcoal/40 focus-visible:border-charcoal focus-visible:ring-2 focus-visible:ring-charcoal/20 aria-disabled:cursor-not-allowed aria-disabled:opacity-50",
 })
 const valueText = tv({ base: "flex-1 truncate text-left" })
 const placeholderText = tv({ base: "flex-1 truncate text-left text-charcoal/40" })
@@ -60,7 +60,7 @@ export interface AutocompleteProps {
 
 export function Autocomplete({ selectedKey = null, onSelectionChange, children }: AutocompleteProps) {
     const [isOpen, setIsOpen] = useState(false)
-    const triggerRef = useRef<HTMLButtonElement>(null)
+    const triggerRef = useRef<HTMLDivElement>(null)
 
     return (
         <AutocompleteContext.Provider
@@ -74,9 +74,23 @@ export function Autocomplete({ selectedKey = null, onSelectionChange, children }
 Autocomplete.Trigger = function AutocompleteTrigger({ className, children }: { className?: string; children: ReactNode }) {
     const { isOpen, setIsOpen, triggerRef } = useAutocompleteContext()
     return (
-        <AriaButton ref={triggerRef} className={triggerButton({ className })} onPress={() => setIsOpen(!isOpen)}>
+        <div
+            ref={triggerRef}
+            role="button"
+            tabIndex={0}
+            aria-haspopup="listbox"
+            aria-expanded={isOpen}
+            className={triggerDiv({ className })}
+            onClick={() => setIsOpen(!isOpen)}
+            onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    setIsOpen(!isOpen)
+                }
+            }}
+        >
             {children}
-        </AriaButton>
+        </div>
     )
 }
 
@@ -90,9 +104,11 @@ Autocomplete.ClearButton = function AutocompleteClearButton({ className }: { cla
     const { selectedKey, onSelectionChange } = useAutocompleteContext()
     if (!selectedKey) return null
     return (
-        <AriaButton className={clearBtn({ className })} aria-label="Clear selection" onPress={() => onSelectionChange(null)}>
-            ✕
-        </AriaButton>
+        <span onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <AriaButton className={clearBtn({ className })} aria-label="Clear selection" onPress={() => onSelectionChange(null)}>
+                ✕
+            </AriaButton>
+        </span>
     )
 }
 
@@ -112,7 +128,7 @@ Autocomplete.Popover = function AutocompletePopover({ className, children }: { c
         <AriaPopover
             isOpen={isOpen}
             onOpenChange={setIsOpen}
-            triggerRef={triggerRef as RefObject<HTMLButtonElement>}
+            triggerRef={triggerRef as RefObject<HTMLDivElement>}
             className={popover({ className })}
         >
             <AriaAutocomplete filter={contains}>

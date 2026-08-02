@@ -131,7 +131,8 @@ var container = tv4({
       sm: "max-w-sm",
       md: "max-w-md",
       lg: "max-w-lg",
-      cover: "max-h-[90vh] max-w-4xl"
+      cover: "max-h-[90vh] max-w-4xl",
+      xl: "max-h-[90vh] max-w-7xl"
     }
   },
   defaultVariants: { size: "md" }
@@ -1074,8 +1075,8 @@ function useAutocompleteContext() {
   if (!ctx) throw new Error("Autocomplete.* components must be used inside <Autocomplete>");
   return ctx;
 }
-var triggerButton = tv26({
-  base: "flex w-full items-center justify-between gap-2 rounded-xl border-[1.5px] border-sand bg-cream px-3 py-2 text-sm text-charcoal outline-none transition-colors data-[hovered]:border-charcoal/40 data-[focus-visible]:border-charcoal data-[focus-visible]:ring-2 data-[focus-visible]:ring-charcoal/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+var triggerDiv = tv26({
+  base: "flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl border-[1.5px] border-sand bg-cream px-3 py-2 text-sm text-charcoal outline-none transition-colors hover:border-charcoal/40 focus-visible:border-charcoal focus-visible:ring-2 focus-visible:ring-charcoal/20 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
 });
 var valueText = tv26({ base: "flex-1 truncate text-left" });
 var placeholderText = tv26({ base: "flex-1 truncate text-left text-charcoal/40" });
@@ -1108,7 +1109,25 @@ function Autocomplete({ selectedKey = null, onSelectionChange, children }) {
 }
 Autocomplete.Trigger = function AutocompleteTrigger({ className, children }) {
   const { isOpen, setIsOpen, triggerRef } = useAutocompleteContext();
-  return /* @__PURE__ */ jsx26(AriaButton9, { ref: triggerRef, className: triggerButton({ className }), onPress: () => setIsOpen(!isOpen), children });
+  return /* @__PURE__ */ jsx26(
+    "div",
+    {
+      ref: triggerRef,
+      role: "button",
+      tabIndex: 0,
+      "aria-haspopup": "listbox",
+      "aria-expanded": isOpen,
+      className: triggerDiv({ className }),
+      onClick: () => setIsOpen(!isOpen),
+      onKeyDown: (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setIsOpen(!isOpen);
+        }
+      },
+      children
+    }
+  );
 };
 Autocomplete.Value = function AutocompleteValue({ placeholder = "Select\u2026", children }) {
   const { selectedKey } = useAutocompleteContext();
@@ -1118,7 +1137,7 @@ Autocomplete.Value = function AutocompleteValue({ placeholder = "Select\u2026", 
 Autocomplete.ClearButton = function AutocompleteClearButton({ className }) {
   const { selectedKey, onSelectionChange } = useAutocompleteContext();
   if (!selectedKey) return null;
-  return /* @__PURE__ */ jsx26(AriaButton9, { className: clearBtn2({ className }), "aria-label": "Clear selection", onPress: () => onSelectionChange(null), children: "\u2715" });
+  return /* @__PURE__ */ jsx26("span", { onClick: (e) => e.stopPropagation(), onKeyDown: (e) => e.stopPropagation(), children: /* @__PURE__ */ jsx26(AriaButton9, { className: clearBtn2({ className }), "aria-label": "Clear selection", onPress: () => onSelectionChange(null), children: "\u2715" }) });
 };
 Autocomplete.Indicator = function AutocompleteIndicator({ className }) {
   return /* @__PURE__ */ jsx26("svg", { className: indicator2({ className }), width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", "aria-hidden": "true", children: /* @__PURE__ */ jsx26("path", { d: "m6 9 6 6 6-6" }) });
