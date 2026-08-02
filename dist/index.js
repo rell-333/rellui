@@ -256,11 +256,12 @@ import {
   Row as AriaRow,
   Cell as AriaCell,
   Column as AriaColumn,
-  Collection as AriaCollection
+  Collection as AriaCollection,
+  TableLoadMoreItem as AriaTableLoadMoreItem
 } from "react-aria-components";
 import { tv as tv6 } from "tailwind-variants";
 import { jsx as jsx6 } from "react/jsx-runtime";
-var wrapper = tv6({ base: "overflow-hidden rounded-2xl border border-sand" });
+var wrapper = tv6({ base: "w-full overflow-hidden rounded-2xl border border-sand" });
 var scroll = tv6({ base: "overflow-auto rellui-scrollbar" });
 var content2 = tv6({ base: "w-full border-collapse text-sm" });
 var header3 = tv6({ base: "bg-sand/30" });
@@ -271,6 +272,9 @@ var row = tv6({
   base: "border-t border-sand/60 outline-none data-[hovered]:bg-sand/10 data-[selected]:bg-accent/10"
 });
 var cell = tv6({ base: "px-4 py-3 text-charcoal outline-none" });
+var loadMore = tv6({
+  base: "flex items-center justify-center gap-2 border-t border-sand/60 px-4 py-4 text-sm text-charcoal/50"
+});
 function Table({ className, ...props }) {
   return /* @__PURE__ */ jsx6("div", { className: wrapper({ className }), ...props });
 }
@@ -315,6 +319,23 @@ Table.Cell = function TableCell({
   ...props
 }) {
   return /* @__PURE__ */ jsx6(AriaCell, { className: cell({ className }), ...props });
+};
+Table.LoadMore = function TableLoadMore({
+  isLoading,
+  onLoadMore,
+  scrollOffset,
+  className,
+  children
+}) {
+  return /* @__PURE__ */ jsx6(
+    AriaTableLoadMoreItem,
+    {
+      isLoading,
+      onLoadMore,
+      scrollOffset,
+      children: /* @__PURE__ */ jsx6("div", { className: loadMore({ className }), children })
+    }
+  );
 };
 var emptyState = tv6({ base: "flex flex-col items-center justify-center gap-2 p-10 text-center text-sm text-charcoal/50" });
 function EmptyState({ className, ...props }) {

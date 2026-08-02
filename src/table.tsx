@@ -6,6 +6,7 @@ import {
     Cell as AriaCell,
     Column as AriaColumn,
     Collection as AriaCollection,
+    TableLoadMoreItem as AriaTableLoadMoreItem,
     type TableProps as AriaTableProps,
     type TableHeaderProps as AriaTableHeaderProps,
     type TableBodyProps as AriaTableBodyProps,
@@ -17,7 +18,7 @@ import {
 import { tv } from "tailwind-variants"
 import type { HTMLAttributes, ReactNode } from "react"
 
-const wrapper = tv({ base: "overflow-hidden rounded-2xl border border-sand" })
+const wrapper = tv({ base: "w-full overflow-hidden rounded-2xl border border-sand" })
 const scroll = tv({ base: "overflow-auto rellui-scrollbar" })
 const content = tv({ base: "w-full border-collapse text-sm" })
 const header = tv({ base: "bg-sand/30" })
@@ -28,6 +29,9 @@ const row = tv({
     base: "border-t border-sand/60 outline-none data-[hovered]:bg-sand/10 data-[selected]:bg-accent/10",
 })
 const cell = tv({ base: "px-4 py-3 text-charcoal outline-none" })
+const loadMore = tv({
+    base: "flex items-center justify-center gap-2 border-t border-sand/60 px-4 py-4 text-sm text-charcoal/50",
+})
 
 type DivProps = Omit<HTMLAttributes<HTMLDivElement>, "className"> & { className?: string }
 
@@ -83,6 +87,32 @@ Table.Cell = function TableCell({
                                     ...props
                                 }: Omit<AriaCellProps, "className"> & { className?: string }) {
     return <AriaCell className={cell({ className })} {...props} />
+}
+
+export interface TableLoadMoreProps {
+    isLoading?: boolean
+    onLoadMore?: () => void
+    scrollOffset?: number
+    className?: string
+    children?: ReactNode
+}
+
+Table.LoadMore = function TableLoadMore({
+                                            isLoading,
+                                            onLoadMore,
+                                            scrollOffset,
+                                            className,
+                                            children,
+                                        }: TableLoadMoreProps) {
+    return (
+        <AriaTableLoadMoreItem
+            isLoading={isLoading}
+            onLoadMore={onLoadMore}
+            scrollOffset={scrollOffset}
+        >
+            <div className={loadMore({ className })}>{children}</div>
+        </AriaTableLoadMoreItem>
+    )
 }
 
 export interface EmptyStateProps {

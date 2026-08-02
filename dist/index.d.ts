@@ -138,6 +138,14 @@ declare namespace Table {
     var Cell: ({ className, ...props }: Omit<CellProps, "className"> & {
         className?: string;
     }) => react.JSX.Element;
+    var LoadMore: ({ isLoading, onLoadMore, scrollOffset, className, children, }: TableLoadMoreProps) => react.JSX.Element;
+}
+interface TableLoadMoreProps {
+    isLoading?: boolean;
+    onLoadMore?: () => void;
+    scrollOffset?: number;
+    className?: string;
+    children?: ReactNode;
 }
 interface EmptyStateProps {
     children: ReactNode;
