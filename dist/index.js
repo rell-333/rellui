@@ -174,10 +174,11 @@ Modal.Dialog = function ModalDialog({ className, children }) {
 };
 Modal.CloseTrigger = function ModalCloseTrigger({
   className,
+  children,
   ...props
 }) {
   const close = useContext(ModalCloseContext);
-  return /* @__PURE__ */ jsx4(AriaButton2, { onPress: close, "aria-label": "Close", className: closeBtn({ className }), ...props, children: "\u2715" });
+  return /* @__PURE__ */ jsx4(AriaButton2, { onPress: close, "aria-label": "Close", className: closeBtn({ className }), ...props, children: children ?? "\u2715" });
 };
 Modal.Header = function ModalHeader({ className, ...props }) {
   return /* @__PURE__ */ jsx4("div", { className: header2({ className }), ...props });
@@ -1092,7 +1093,70 @@ Autocomplete.Item = function AutocompleteItem({
 }) {
   return /* @__PURE__ */ jsx26(AriaListBoxItem2, { className: item4({ className }), ...props });
 };
+
+// src/alert-dialog.tsx
+import { useContext as useContext2, useState as useState2 } from "react";
+import { Fragment as Fragment4, jsx as jsx27, jsxs as jsxs16 } from "react/jsx-runtime";
+function AlertDialog({
+  isOpen,
+  defaultOpen,
+  onOpenChange,
+  title: title2,
+  description: description2,
+  actionLabel = "Confirm",
+  cancelLabel = "Cancel",
+  onAction,
+  isDestructive = false
+}) {
+  const [isActionLoading, setIsActionLoading] = useState2(false);
+  return /* @__PURE__ */ jsx27(Modal, { isOpen, defaultOpen, onOpenChange, children: /* @__PURE__ */ jsx27(Modal.Backdrop, { isOpen, onOpenChange, children: /* @__PURE__ */ jsx27(Modal.Container, { size: "sm", children: /* @__PURE__ */ jsxs16(Modal.Dialog, { children: [
+    /* @__PURE__ */ jsx27(Modal.Header, { children: /* @__PURE__ */ jsx27(Modal.Heading, { children: title2 }) }),
+    description2 && /* @__PURE__ */ jsx27(Modal.Body, { children: description2 }),
+    /* @__PURE__ */ jsx27(Modal.Footer, { children: /* @__PURE__ */ jsx27(
+      AlertDialogActions,
+      {
+        actionLabel,
+        cancelLabel,
+        onAction,
+        isDestructive,
+        isActionLoading,
+        setIsActionLoading
+      }
+    ) })
+  ] }) }) }) });
+}
+function AlertDialogActions({
+  actionLabel,
+  cancelLabel,
+  onAction,
+  isDestructive,
+  isActionLoading,
+  setIsActionLoading
+}) {
+  const close = useContext2(ModalCloseContext);
+  return /* @__PURE__ */ jsxs16(Fragment4, { children: [
+    /* @__PURE__ */ jsx27(Button, { variant: "secondary", size: "sm", onPress: close, children: cancelLabel }),
+    /* @__PURE__ */ jsx27(
+      Button,
+      {
+        variant: isDestructive ? "danger" : "primary",
+        size: "sm",
+        isDisabled: isActionLoading,
+        onPress: async () => {
+          setIsActionLoading(true);
+          try {
+            await onAction();
+          } finally {
+            setIsActionLoading(false);
+          }
+        },
+        children: isActionLoading ? "Working\u2026" : actionLabel
+      }
+    )
+  ] });
+}
 export {
+  AlertDialog,
   Autocomplete,
   Breadcrumbs,
   Button,

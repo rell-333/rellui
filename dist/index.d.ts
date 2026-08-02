@@ -89,7 +89,7 @@ declare namespace Modal {
         className?: string;
     }) => react.JSX.Element;
     var Dialog: ({ className, children }: ModalDialogProps) => react.JSX.Element;
-    var CloseTrigger: ({ className, ...props }: Omit<ButtonProps$1, "className"> & {
+    var CloseTrigger: ({ className, children, ...props }: Omit<ButtonProps$1, "className"> & {
         className?: string;
     }) => react.JSX.Element;
     var Header: ({ className, ...props }: DivProps$2) => react.JSX.Element;
@@ -355,4 +355,17 @@ declare namespace Autocomplete {
     }) => react.JSX.Element;
 }
 
-export { Autocomplete, type AutocompleteProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };
+interface AlertDialogProps {
+    isOpen?: ModalProps["isOpen"];
+    defaultOpen?: ModalProps["defaultOpen"];
+    onOpenChange?: ModalProps["onOpenChange"];
+    title: string;
+    description?: ReactNode;
+    actionLabel?: string;
+    cancelLabel?: string;
+    onAction: () => void | Promise<void>;
+    isDestructive?: boolean;
+}
+declare function AlertDialog({ isOpen, defaultOpen, onOpenChange, title, description, actionLabel, cancelLabel, onAction, isDestructive, }: AlertDialogProps): react.JSX.Element;
+
+export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };

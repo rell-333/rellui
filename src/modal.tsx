@@ -10,7 +10,7 @@ import {
 } from "react-aria-components"
 import { tv } from "tailwind-variants"
 
-const ModalCloseContext = createContext<() => void>(() => {})
+export const ModalCloseContext = createContext<() => void>(() => {})
 
 const trigger = tv({
     base: "border-0 bg-transparent p-0 text-charcoal",
@@ -125,12 +125,13 @@ Modal.Dialog = function ModalDialog({ className, children }: ModalDialogProps) {
 
 Modal.CloseTrigger = function ModalCloseTrigger({
                                                     className,
+                                                    children,
                                                     ...props
                                                 }: Omit<AriaButtonProps, "className"> & { className?: string }) {
     const close = useContext(ModalCloseContext)
     return (
         <AriaButton onPress={close} aria-label="Close" className={closeBtn({ className })} {...props}>
-            ✕
+            {children ?? "✕"}
         </AriaButton>
     )
 }
