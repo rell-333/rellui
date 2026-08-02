@@ -65,7 +65,7 @@ const panel = tv({
 })
 
 const titleStyle = tv({ base: "text-sm font-semibold" })
-const descriptionStyle = tv({ base: "mt-0.5 text-xs opacity-80" })
+const descriptionStyle = tv({ base: "mt-0.5 truncate text-xs opacity-80" })
 const closeBtn = tv({ base: "ml-auto shrink-0 rounded-full p-1 text-current opacity-60 transition-opacity hover:opacity-100" })
 
 export function Toaster() {
@@ -80,7 +80,7 @@ export function Toaster() {
                         viewTransitionClass: "rellui-toast",
                     } as React.CSSProperties}
                 >
-                    <AriaToastContent className="flex flex-col">
+                    <AriaToastContent className="flex min-w-0 flex-col">
                         <Text slot="title" className={titleStyle({})}>
                             {t.content.title}
                         </Text>
