@@ -7,7 +7,6 @@ import {
     Button as AriaButton,
 } from "react-aria-components"
 import { tv } from "tailwind-variants"
-import { flushSync } from "react-dom"
 import type { ReactNode } from "react"
 
 interface ToastData {
@@ -16,27 +15,8 @@ interface ToastData {
     variant?: "default" | "success" | "warning" | "danger"
 }
 
-let activeTransition: ReturnType<Document["startViewTransition"]> | null = null
-
 export const toastQueue = new AriaToastQueue<ToastData>({
     maxVisibleToasts: 5,
-    wrapUpdate(fn) {
-        if (typeof document !== "undefined" && "startViewTransition" in document && !activeTransition) {
-            try {
-                const transition = document.startViewTransition(() => {
-                    flushSync(fn)
-                })
-                activeTransition = transition
-                transition.finished.catch(() => {}).finally(() => {
-                    activeTransition = null
-                })
-            } catch {
-                fn()
-            }
-        } else {
-            fn()
-        }
-    },
 })
 
 function queueToast(variant: ToastData["variant"], title: string, description?: string) {
@@ -57,7 +37,7 @@ const region = tv({
 })
 
 const panel = tv({
-    base: "flex w-80 items-start gap-3 rounded-2xl border p-4 shadow-xl outline-none",
+    base: "flex w-80 items-start gap-3 rounded-2xl border p-4 shadow-xl outline-none transition-all duration-300 ease-out data-[entering]:translate-x-4 data-[entering]:opacity-0 data-[exiting]:translate-x-4 data-[exiting]:opacity-0",
     variants: {
         variant: {
             default: "border-charcoal bg-charcoal text-cream",
@@ -122,14 +102,7 @@ export function Toaster() {
             {({ toast: t }) => {
                 const variant = t.content.variant ?? "default"
                 return (
-                    <AriaToast
-                        toast={t}
-                        className={panel({ variant })}
-                        style={{
-                            viewTransitionName: t.key,
-                            viewTransitionClass: "rellui-toast",
-                        } as React.CSSProperties}
-                    >
+                    <AriaToast toast={t} className={panel({ variant })}>
                         <span className={iconWrap({ variant })}>{ICONS[variant]}</span>
                         <AriaToastContent className="flex min-w-0 flex-1 flex-col">
                             <Text slot="title" className={titleStyle({})}>

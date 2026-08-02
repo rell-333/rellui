@@ -398,29 +398,9 @@ import {
   Button as AriaButton3
 } from "react-aria-components";
 import { tv as tv8 } from "tailwind-variants";
-import { flushSync } from "react-dom";
 import { jsx as jsx8, jsxs as jsxs3 } from "react/jsx-runtime";
-var activeTransition = null;
 var toastQueue = new AriaToastQueue({
-  maxVisibleToasts: 5,
-  wrapUpdate(fn) {
-    if (typeof document !== "undefined" && "startViewTransition" in document && !activeTransition) {
-      try {
-        const transition = document.startViewTransition(() => {
-          flushSync(fn);
-        });
-        activeTransition = transition;
-        transition.finished.catch(() => {
-        }).finally(() => {
-          activeTransition = null;
-        });
-      } catch {
-        fn();
-      }
-    } else {
-      fn();
-    }
-  }
+  maxVisibleToasts: 5
 });
 function queueToast(variant, title2, description2) {
   toastQueue.add({ title: title2, description: description2, variant }, { timeout: 5e3 });
@@ -437,7 +417,7 @@ var region = tv8({
   base: "fixed bottom-4 right-4 z-[9999] flex flex-col gap-2 outline-none rellui-toast-region"
 });
 var panel = tv8({
-  base: "flex w-80 items-start gap-3 rounded-2xl border p-4 shadow-xl outline-none",
+  base: "flex w-80 items-start gap-3 rounded-2xl border p-4 shadow-xl outline-none transition-all duration-300 ease-out data-[entering]:translate-x-4 data-[entering]:opacity-0 data-[exiting]:translate-x-4 data-[exiting]:opacity-0",
   variants: {
     variant: {
       default: "border-charcoal bg-charcoal text-cream",
@@ -485,25 +465,14 @@ var ICONS = {
 function Toaster() {
   return /* @__PURE__ */ jsx8(AriaToastRegion, { queue: toastQueue, className: region({}), children: ({ toast: t }) => {
     const variant = t.content.variant ?? "default";
-    return /* @__PURE__ */ jsxs3(
-      AriaToast,
-      {
-        toast: t,
-        className: panel({ variant }),
-        style: {
-          viewTransitionName: t.key,
-          viewTransitionClass: "rellui-toast"
-        },
-        children: [
-          /* @__PURE__ */ jsx8("span", { className: iconWrap({ variant }), children: ICONS[variant] }),
-          /* @__PURE__ */ jsxs3(AriaToastContent, { className: "flex min-w-0 flex-1 flex-col", children: [
-            /* @__PURE__ */ jsx8(Text2, { slot: "title", className: titleStyle({}), children: t.content.title }),
-            t.content.description && /* @__PURE__ */ jsx8(Text2, { slot: "description", className: descriptionStyle({}), children: t.content.description })
-          ] }),
-          /* @__PURE__ */ jsx8(AriaButton3, { slot: "close", "aria-label": "Close", className: closeBtn2({}), children: "\u2715" })
-        ]
-      }
-    );
+    return /* @__PURE__ */ jsxs3(AriaToast, { toast: t, className: panel({ variant }), children: [
+      /* @__PURE__ */ jsx8("span", { className: iconWrap({ variant }), children: ICONS[variant] }),
+      /* @__PURE__ */ jsxs3(AriaToastContent, { className: "flex min-w-0 flex-1 flex-col", children: [
+        /* @__PURE__ */ jsx8(Text2, { slot: "title", className: titleStyle({}), children: t.content.title }),
+        t.content.description && /* @__PURE__ */ jsx8(Text2, { slot: "description", className: descriptionStyle({}), children: t.content.description })
+      ] }),
+      /* @__PURE__ */ jsx8(AriaButton3, { slot: "close", "aria-label": "Close", className: closeBtn2({}), children: "\u2715" })
+    ] });
   } });
 }
 
