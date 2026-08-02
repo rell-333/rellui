@@ -378,6 +378,9 @@ declare const spinner: tailwind_variants.TVReturnType<{
         default: "text-charcoal";
         inverse: "text-cream";
         muted: "text-charcoal/50";
+        primary: "text-charcoal";
+        secondary: "text-sand";
+        danger: "text-danger";
     };
 }, undefined, "inline-block animate-spin rounded-full border-solid border-current border-r-transparent", {
     size: {
@@ -389,6 +392,9 @@ declare const spinner: tailwind_variants.TVReturnType<{
         default: "text-charcoal";
         inverse: "text-cream";
         muted: "text-charcoal/50";
+        primary: "text-charcoal";
+        secondary: "text-sand";
+        danger: "text-danger";
     };
 }, undefined, tailwind_variants.TVReturnTypeLike<{
     size: {
@@ -400,6 +406,9 @@ declare const spinner: tailwind_variants.TVReturnType<{
         default: "text-charcoal";
         inverse: "text-cream";
         muted: "text-charcoal/50";
+        primary: "text-charcoal";
+        secondary: "text-sand";
+        danger: "text-danger";
     };
 }, undefined>>;
 interface SpinnerProps extends VariantProps<typeof spinner> {
@@ -408,4 +417,37 @@ interface SpinnerProps extends VariantProps<typeof spinner> {
 }
 declare function Spinner({ size, variant, className, label }: SpinnerProps): react.JSX.Element;
 
-export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Spinner, type SpinnerProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };
+declare const avatar: tailwind_variants.TVReturnType<{
+    size: {
+        xs: "h-6 w-6 text-xs";
+        sm: "h-8 w-8 text-sm";
+        md: "h-10 w-10 text-base";
+        lg: "h-14 w-14 text-lg";
+        xl: "h-20 w-20 text-2xl";
+    };
+}, undefined, "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none", {
+    size: {
+        xs: "h-6 w-6 text-xs";
+        sm: "h-8 w-8 text-sm";
+        md: "h-10 w-10 text-base";
+        lg: "h-14 w-14 text-lg";
+        xl: "h-20 w-20 text-2xl";
+    };
+}, undefined, tailwind_variants.TVReturnTypeLike<{
+    size: {
+        xs: "h-6 w-6 text-xs";
+        sm: "h-8 w-8 text-sm";
+        md: "h-10 w-10 text-base";
+        lg: "h-14 w-14 text-lg";
+        xl: "h-20 w-20 text-2xl";
+    };
+}, undefined>>;
+interface AvatarProps extends VariantProps<typeof avatar> {
+    src?: string;
+    name?: string;
+    className?: string;
+    alt?: string;
+}
+declare function Avatar({ src, name, size, className, alt }: AvatarProps): react.JSX.Element;
+
+export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, Avatar, type AvatarProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Spinner, type SpinnerProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };

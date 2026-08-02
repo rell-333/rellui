@@ -13,6 +13,9 @@ const spinner = tv({
             default: "text-charcoal",
             inverse: "text-cream",
             muted: "text-charcoal/50",
+            primary: "text-charcoal",
+            secondary: "text-sand",
+            danger: "text-danger",
         },
     },
     defaultVariants: {

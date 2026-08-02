@@ -1170,7 +1170,10 @@ var spinner = tv27({
     variant: {
       default: "text-charcoal",
       inverse: "text-cream",
-      muted: "text-charcoal/50"
+      muted: "text-charcoal/50",
+      primary: "text-charcoal",
+      secondary: "text-sand",
+      danger: "text-danger"
     }
   },
   defaultVariants: {
@@ -1188,9 +1191,49 @@ function Spinner({ size, variant, className, label: label2 = "Loading" }) {
     }
   );
 }
+
+// src/avatar.tsx
+import { useState as useState3 } from "react";
+import { tv as tv28 } from "tailwind-variants";
+import { jsx as jsx29 } from "react/jsx-runtime";
+var avatar = tv28({
+  base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none",
+  variants: {
+    size: {
+      xs: "h-6 w-6 text-xs",
+      sm: "h-8 w-8 text-sm",
+      md: "h-10 w-10 text-base",
+      lg: "h-14 w-14 text-lg",
+      xl: "h-20 w-20 text-2xl"
+    }
+  },
+  defaultVariants: {
+    size: "md"
+  }
+});
+function getInitials(name) {
+  if (!name) return "?";
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+function Avatar({ src, name, size, className, alt }) {
+  const [hasError, setHasError] = useState3(false);
+  const showImage = src && !hasError;
+  return /* @__PURE__ */ jsx29("span", { className: avatar({ size, className }), children: showImage ? /* @__PURE__ */ jsx29(
+    "img",
+    {
+      src,
+      alt: alt ?? name ?? "Avatar",
+      className: "h-full w-full object-cover",
+      onError: () => setHasError(true)
+    }
+  ) : /* @__PURE__ */ jsx29("span", { "aria-hidden": !!name, "aria-label": !name ? "Avatar" : void 0, children: getInitials(name) }) });
+}
 export {
   AlertDialog,
   Autocomplete,
+  Avatar,
   Breadcrumbs,
   Button,
   Calendar,
