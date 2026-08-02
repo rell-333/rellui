@@ -7,18 +7,18 @@ const overflow = tv({
     base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-charcoal font-semibold text-cream ring-2 ring-cream select-none",
     variants: {
         size: {
-            xs: "h-6 w-6 text-[10px]",
-            sm: "h-8 w-8 text-xs",
-            md: "h-10 w-10 text-sm",
-            lg: "h-14 w-14 text-base",
-            xl: "h-20 w-20 text-xl",
+            xs: "size-6 text-[10px]",
+            sm: "size-8 text-xs",
+            md: "size-10 text-sm",
+            lg: "size-14 text-base",
+            xl: "size-20 text-xl",
         },
     },
     defaultVariants: { size: "md" },
 })
 
 const stackItem = tv({
-    base: "ring-2 ring-cream rounded-full",
+    base: "shrink-0 ring-2 ring-cream rounded-full",
 })
 
 export interface AvatarGroupProps {

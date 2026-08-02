@@ -451,27 +451,27 @@ declare function Spinner({ size, variant, className, label }: SpinnerProps): rea
 
 declare const avatar: tailwind_variants.TVReturnType<{
     size: {
-        xs: "h-6 w-6 text-xs";
-        sm: "h-8 w-8 text-sm";
-        md: "h-10 w-10 text-base";
-        lg: "h-14 w-14 text-lg";
-        xl: "h-20 w-20 text-2xl";
+        xs: "size-6 text-xs";
+        sm: "size-8 text-sm";
+        md: "size-10 text-base";
+        lg: "size-14 text-lg";
+        xl: "size-20 text-2xl";
     };
 }, undefined, "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none", {
     size: {
-        xs: "h-6 w-6 text-xs";
-        sm: "h-8 w-8 text-sm";
-        md: "h-10 w-10 text-base";
-        lg: "h-14 w-14 text-lg";
-        xl: "h-20 w-20 text-2xl";
+        xs: "size-6 text-xs";
+        sm: "size-8 text-sm";
+        md: "size-10 text-base";
+        lg: "size-14 text-lg";
+        xl: "size-20 text-2xl";
     };
 }, undefined, tailwind_variants.TVReturnTypeLike<{
     size: {
-        xs: "h-6 w-6 text-xs";
-        sm: "h-8 w-8 text-sm";
-        md: "h-10 w-10 text-base";
-        lg: "h-14 w-14 text-lg";
-        xl: "h-20 w-20 text-2xl";
+        xs: "size-6 text-xs";
+        sm: "size-8 text-sm";
+        md: "size-10 text-base";
+        lg: "size-14 text-lg";
+        xl: "size-20 text-2xl";
     };
 }, undefined>>;
 interface AvatarProps extends VariantProps<typeof avatar> {

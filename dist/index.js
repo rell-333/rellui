@@ -1339,11 +1339,11 @@ var avatar = tv28({
   base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-sand font-semibold text-charcoal select-none",
   variants: {
     size: {
-      xs: "h-6 w-6 text-xs",
-      sm: "h-8 w-8 text-sm",
-      md: "h-10 w-10 text-base",
-      lg: "h-14 w-14 text-lg",
-      xl: "h-20 w-20 text-2xl"
+      xs: "size-6 text-xs",
+      sm: "size-8 text-sm",
+      md: "size-10 text-base",
+      lg: "size-14 text-lg",
+      xl: "size-20 text-2xl"
     }
   },
   defaultVariants: {
@@ -1378,17 +1378,17 @@ var overflow = tv29({
   base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-charcoal font-semibold text-cream ring-2 ring-cream select-none",
   variants: {
     size: {
-      xs: "h-6 w-6 text-[10px]",
-      sm: "h-8 w-8 text-xs",
-      md: "h-10 w-10 text-sm",
-      lg: "h-14 w-14 text-base",
-      xl: "h-20 w-20 text-xl"
+      xs: "size-6 text-[10px]",
+      sm: "size-8 text-xs",
+      md: "size-10 text-sm",
+      lg: "size-14 text-base",
+      xl: "size-20 text-xl"
     }
   },
   defaultVariants: { size: "md" }
 });
 var stackItem = tv29({
-  base: "ring-2 ring-cream rounded-full"
+  base: "shrink-0 ring-2 ring-cream rounded-full"
 });
 function AvatarGroup({ children, max = 4, size = "md", className }) {
   const items = Children.toArray(children).filter(isValidElement);
