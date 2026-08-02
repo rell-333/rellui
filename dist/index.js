@@ -1230,10 +1230,86 @@ function Avatar({ src, name, size, className, alt }) {
     }
   ) : /* @__PURE__ */ jsx29("span", { "aria-hidden": !!name, "aria-label": !name ? "Avatar" : void 0, children: getInitials(name) }) });
 }
+
+// src/avatar-group.tsx
+import { Children, cloneElement, isValidElement } from "react";
+import { tv as tv29 } from "tailwind-variants";
+import { jsx as jsx30, jsxs as jsxs17 } from "react/jsx-runtime";
+var overflow = tv29({
+  base: "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-charcoal font-semibold text-cream ring-2 ring-cream select-none",
+  variants: {
+    size: {
+      xs: "h-6 w-6 text-[10px]",
+      sm: "h-8 w-8 text-xs",
+      md: "h-10 w-10 text-sm",
+      lg: "h-14 w-14 text-base",
+      xl: "h-20 w-20 text-xl"
+    }
+  },
+  defaultVariants: { size: "md" }
+});
+var stackItem = tv29({
+  base: "ring-2 ring-cream rounded-full"
+});
+function AvatarGroup({ children, max = 4, size = "md", className }) {
+  const items = Children.toArray(children).filter(isValidElement);
+  const visible = items.slice(0, max);
+  const overflowCount = items.length - visible.length;
+  return /* @__PURE__ */ jsxs17("div", { className: `flex items-center -space-x-3 ${className ?? ""}`, children: [
+    visible.map((child, i) => /* @__PURE__ */ jsx30("div", { className: stackItem(), style: { zIndex: visible.length - i }, children: cloneElement(child, { size }) }, i)),
+    overflowCount > 0 && /* @__PURE__ */ jsxs17("div", { className: overflow({ size }), style: { zIndex: 0 }, children: [
+      "+",
+      overflowCount
+    ] })
+  ] });
+}
+
+// src/search-field.tsx
+import {
+  SearchField as AriaSearchField,
+  Input as AriaInput3,
+  Button as AriaButton9
+} from "react-aria-components";
+import { tv as tv30 } from "tailwind-variants";
+import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
+var field = tv30({
+  base: "group relative flex w-full items-center"
+});
+var input3 = tv30({
+  base: "w-full rounded-xl border-[1.5px] border-sand bg-cream py-2 pl-9 pr-8 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-charcoal focus:ring-2 focus:ring-charcoal/20 disabled:opacity-50 disabled:cursor-not-allowed"
+});
+var icon = tv30({
+  base: "pointer-events-none absolute left-3 h-4 w-4 text-charcoal/40"
+});
+var clearBtn2 = tv30({
+  base: "absolute right-2 flex h-5 w-5 items-center justify-center rounded-full text-charcoal/40 transition-colors hover:bg-sand/60 hover:text-charcoal group-data-[empty]:invisible"
+});
+function SearchField({ className, placeholder = "Search\u2026", ...props }) {
+  return /* @__PURE__ */ jsxs18(AriaSearchField, { className: field({ className }), ...props, children: [
+    /* @__PURE__ */ jsxs18(
+      "svg",
+      {
+        className: icon(),
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: "2",
+        "aria-hidden": "true",
+        children: [
+          /* @__PURE__ */ jsx31("circle", { cx: "11", cy: "11", r: "7" }),
+          /* @__PURE__ */ jsx31("path", { d: "m21 21-4.3-4.3" })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsx31(AriaInput3, { className: input3(), placeholder }),
+    /* @__PURE__ */ jsx31(AriaButton9, { className: clearBtn2(), "aria-label": "Clear search", children: "\u2715" })
+  ] });
+}
 export {
   AlertDialog,
   Autocomplete,
   Avatar,
+  AvatarGroup,
   Breadcrumbs,
   Button,
   Calendar,
@@ -1254,6 +1330,7 @@ export {
   Popover,
   Radio,
   RadioGroup,
+  SearchField,
   Select,
   Skeleton,
   Spinner,

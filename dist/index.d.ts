@@ -2,7 +2,7 @@ import * as react from 'react';
 import { InputHTMLAttributes, HTMLAttributes, ReactNode, ComponentProps, ReactElement } from 'react';
 import * as tailwind_variants from 'tailwind-variants';
 import { VariantProps } from 'tailwind-variants';
-import { ButtonProps as ButtonProps$1, TextFieldProps as TextFieldProps$1, ModalOverlay, Modal as Modal$1, TableProps, TableHeaderProps, ColumnProps, TableBodyProps, CollectionProps, RowProps, CellProps, MenuTriggerProps, PopoverProps as PopoverProps$1, MenuProps as MenuProps$1, MenuItemProps, LinkProps, BreadcrumbsProps as BreadcrumbsProps$1, DateValue, CalendarProps as CalendarProps$1, CalendarGridProps, CalendarGridBodyProps, CalendarCellProps, CheckboxProps as CheckboxProps$1, DateFieldProps as DateFieldProps$1, DatePickerProps as DatePickerProps$1, DisclosureProps as DisclosureProps$1, DisclosureGroupProps as DisclosureGroupProps$1, DropZoneProps as DropZoneProps$1, MeterProps as MeterProps$1, RadioFieldProps, RadioGroupProps as RadioGroupProps$1, SelectProps as SelectProps$1, ListBoxItemProps, SwitchFieldProps, TooltipProps as TooltipProps$1, TabsProps as TabsProps$1, TabListProps, TabProps as TabProps$1, TabPanelsProps, TabPanelProps, AutocompleteProps as AutocompleteProps$1, ListBoxProps } from 'react-aria-components';
+import { ButtonProps as ButtonProps$1, TextFieldProps as TextFieldProps$1, ModalOverlay, Modal as Modal$1, TableProps, TableHeaderProps, ColumnProps, TableBodyProps, CollectionProps, RowProps, CellProps, MenuTriggerProps, PopoverProps as PopoverProps$1, MenuProps as MenuProps$1, MenuItemProps, LinkProps, BreadcrumbsProps as BreadcrumbsProps$1, DateValue, CalendarProps as CalendarProps$1, CalendarGridProps, CalendarGridBodyProps, CalendarCellProps, CheckboxProps as CheckboxProps$1, DateFieldProps as DateFieldProps$1, DatePickerProps as DatePickerProps$1, DisclosureProps as DisclosureProps$1, DisclosureGroupProps as DisclosureGroupProps$1, DropZoneProps as DropZoneProps$1, MeterProps as MeterProps$1, RadioFieldProps, RadioGroupProps as RadioGroupProps$1, SelectProps as SelectProps$1, ListBoxItemProps, SwitchFieldProps, TooltipProps as TooltipProps$1, TabsProps as TabsProps$1, TabListProps, TabProps as TabProps$1, TabPanelsProps, TabPanelProps, AutocompleteProps as AutocompleteProps$1, ListBoxProps, SearchFieldProps as SearchFieldProps$1 } from 'react-aria-components';
 export { DialogTrigger, TooltipTrigger } from 'react-aria-components';
 
 declare const button: tailwind_variants.TVReturnType<{
@@ -450,4 +450,18 @@ interface AvatarProps extends VariantProps<typeof avatar> {
 }
 declare function Avatar({ src, name, size, className, alt }: AvatarProps): react.JSX.Element;
 
-export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, Avatar, type AvatarProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Spinner, type SpinnerProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };
+interface AvatarGroupProps {
+    children: ReactNode;
+    max?: number;
+    size?: AvatarProps["size"];
+    className?: string;
+}
+declare function AvatarGroup({ children, max, size, className }: AvatarGroupProps): react.JSX.Element;
+
+interface SearchFieldProps extends Omit<SearchFieldProps$1, "className"> {
+    className?: string;
+    placeholder?: string;
+}
+declare function SearchField({ className, placeholder, ...props }: SearchFieldProps): react.JSX.Element;
+
+export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, Avatar, AvatarGroup, type AvatarGroupProps, type AvatarProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, SearchField, type SearchFieldProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Spinner, type SpinnerProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };
