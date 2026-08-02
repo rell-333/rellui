@@ -433,41 +433,78 @@ var toast = Object.assign(
     danger: (title2, description2) => queueToast("danger", title2, description2)
   }
 );
-var region = tv8({ base: "fixed bottom-4 right-4 z-[100] outline-none rellui-toast-region" });
+var region = tv8({
+  base: "fixed bottom-4 right-4 z-[9999] flex flex-col gap-2 outline-none rellui-toast-region"
+});
 var panel = tv8({
-  base: "flex w-80 items-start gap-3 rounded-2xl border p-4 shadow-lg outline-none",
+  base: "flex w-80 items-start gap-3 rounded-2xl border p-4 shadow-xl outline-none",
   variants: {
     variant: {
-      default: "border-sand bg-cream text-charcoal",
-      success: "border-success/30 bg-success/10 text-success",
-      warning: "border-warning/30 bg-warning/10 text-warning",
-      danger: "border-danger/30 bg-danger/10 text-danger"
+      default: "border-charcoal bg-charcoal text-cream",
+      success: "border-success bg-success text-cream",
+      warning: "border-warning bg-warning text-charcoal",
+      danger: "border-danger bg-danger text-cream"
+    }
+  },
+  defaultVariants: { variant: "default" }
+});
+var iconWrap = tv8({
+  base: "flex size-6 shrink-0 items-center justify-center rounded-full",
+  variants: {
+    variant: {
+      default: "bg-cream/15",
+      success: "bg-cream/20",
+      warning: "bg-charcoal/10",
+      danger: "bg-cream/20"
     }
   },
   defaultVariants: { variant: "default" }
 });
 var titleStyle = tv8({ base: "text-sm font-semibold" });
-var descriptionStyle = tv8({ base: "mt-0.5 truncate text-xs opacity-80" });
-var closeBtn2 = tv8({ base: "ml-auto shrink-0 rounded-full p-1 text-current opacity-60 transition-opacity hover:opacity-100" });
+var descriptionStyle = tv8({ base: "mt-0.5 break-words text-xs opacity-90" });
+var closeBtn2 = tv8({
+  base: "ml-auto shrink-0 rounded-full p-1 text-current opacity-70 transition-opacity hover:opacity-100 hover:bg-cream/15"
+});
+var ICONS = {
+  default: /* @__PURE__ */ jsxs3("svg", { viewBox: "0 0 24 24", width: "14", height: "14", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
+    /* @__PURE__ */ jsx8("circle", { cx: "12", cy: "12", r: "9" }),
+    /* @__PURE__ */ jsx8("path", { d: "M12 8v5", strokeLinecap: "round" }),
+    /* @__PURE__ */ jsx8("circle", { cx: "12", cy: "16", r: "0.5", fill: "currentColor" })
+  ] }),
+  success: /* @__PURE__ */ jsx8("svg", { viewBox: "0 0 24 24", width: "14", height: "14", fill: "none", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ jsx8("path", { d: "m5 13 4 4L19 7", strokeLinecap: "round", strokeLinejoin: "round" }) }),
+  warning: /* @__PURE__ */ jsxs3("svg", { viewBox: "0 0 24 24", width: "14", height: "14", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
+    /* @__PURE__ */ jsx8("path", { d: "M12 9v4", strokeLinecap: "round" }),
+    /* @__PURE__ */ jsx8("path", { d: "M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z", strokeLinejoin: "round" }),
+    /* @__PURE__ */ jsx8("circle", { cx: "12", cy: "16.5", r: "0.5", fill: "currentColor" })
+  ] }),
+  danger: /* @__PURE__ */ jsxs3("svg", { viewBox: "0 0 24 24", width: "14", height: "14", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
+    /* @__PURE__ */ jsx8("circle", { cx: "12", cy: "12", r: "9" }),
+    /* @__PURE__ */ jsx8("path", { d: "m9 9 6 6M15 9l-6 6", strokeLinecap: "round" })
+  ] })
+};
 function Toaster() {
-  return /* @__PURE__ */ jsx8(AriaToastRegion, { queue: toastQueue, className: region({}), children: ({ toast: t }) => /* @__PURE__ */ jsxs3(
-    AriaToast,
-    {
-      toast: t,
-      className: panel({ variant: t.content.variant }),
-      style: {
-        viewTransitionName: t.key,
-        viewTransitionClass: "rellui-toast"
-      },
-      children: [
-        /* @__PURE__ */ jsxs3(AriaToastContent, { className: "flex min-w-0 flex-col", children: [
-          /* @__PURE__ */ jsx8(Text2, { slot: "title", className: titleStyle({}), children: t.content.title }),
-          t.content.description && /* @__PURE__ */ jsx8(Text2, { slot: "description", className: descriptionStyle({}), children: t.content.description })
-        ] }),
-        /* @__PURE__ */ jsx8(AriaButton3, { slot: "close", "aria-label": "Close", className: closeBtn2({}), children: "\u2715" })
-      ]
-    }
-  ) });
+  return /* @__PURE__ */ jsx8(AriaToastRegion, { queue: toastQueue, className: region({}), children: ({ toast: t }) => {
+    const variant = t.content.variant ?? "default";
+    return /* @__PURE__ */ jsxs3(
+      AriaToast,
+      {
+        toast: t,
+        className: panel({ variant }),
+        style: {
+          viewTransitionName: t.key,
+          viewTransitionClass: "rellui-toast"
+        },
+        children: [
+          /* @__PURE__ */ jsx8("span", { className: iconWrap({ variant }), children: ICONS[variant] }),
+          /* @__PURE__ */ jsxs3(AriaToastContent, { className: "flex min-w-0 flex-1 flex-col", children: [
+            /* @__PURE__ */ jsx8(Text2, { slot: "title", className: titleStyle({}), children: t.content.title }),
+            t.content.description && /* @__PURE__ */ jsx8(Text2, { slot: "description", className: descriptionStyle({}), children: t.content.description })
+          ] }),
+          /* @__PURE__ */ jsx8(AriaButton3, { slot: "close", "aria-label": "Close", className: closeBtn2({}), children: "\u2715" })
+        ]
+      }
+    );
+  } });
 }
 
 // src/breadcrumbs.tsx
@@ -749,7 +786,7 @@ var browseBtn = tv17({ base: "text-xs font-semibold text-accent underline outlin
 var clearBtn = tv17({
   base: "absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-charcoal/60 text-white outline-none transition-colors data-[hovered]:bg-charcoal/80"
 });
-var ICONS = {
+var ICONS2 = {
   image: /* @__PURE__ */ jsxs8("svg", { viewBox: "0 0 24 24", fill: "none", className: "h-8 w-8 text-charcoal/30", children: [
     /* @__PURE__ */ jsx17("rect", { x: "3", y: "3", width: "18", height: "18", rx: "2", stroke: "currentColor", strokeWidth: 1.5 }),
     /* @__PURE__ */ jsx17("circle", { cx: "8.5", cy: "8.5", r: "1.5", fill: "currentColor" }),
@@ -818,7 +855,7 @@ function FileUpload({
         },
         children: [
           fileName && /* @__PURE__ */ jsx17("button", { type: "button", onClick: clear, className: clearBtn({}), "aria-label": "Remove file", children: "\u2715" }),
-          preview ? /* @__PURE__ */ jsx17("img", { src: preview, alt: "preview", className: "h-24 w-24 rounded-xl object-cover" }) : !fileName ? ICONS[variant] : null,
+          preview ? /* @__PURE__ */ jsx17("img", { src: preview, alt: "preview", className: "h-24 w-24 rounded-xl object-cover" }) : !fileName ? ICONS2[variant] : null,
           fileName && !preview && /* @__PURE__ */ jsx17("p", { className: fileNameStyle({}), children: fileName }),
           /* @__PURE__ */ jsx17(
             FileTrigger,
