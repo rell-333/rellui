@@ -21,13 +21,17 @@ export const toastQueue = new AriaToastQueue<ToastData>({
     maxVisibleToasts: 5,
     wrapUpdate(fn) {
         if (typeof document !== "undefined" && "startViewTransition" in document && !activeTransition) {
-            const transition = document.startViewTransition(() => {
-                flushSync(fn)
-            })
-            activeTransition = transition
-            transition.finished.finally(() => {
-                activeTransition = null
-            })
+            try {
+                const transition = document.startViewTransition(() => {
+                    flushSync(fn)
+                })
+                activeTransition = transition
+                transition.finished.catch(() => {}).finally(() => {
+                    activeTransition = null
+                })
+            } catch {
+                fn()
+            }
         } else {
             fn()
         }
