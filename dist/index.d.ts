@@ -368,4 +368,44 @@ interface AlertDialogProps {
 }
 declare function AlertDialog({ isOpen, defaultOpen, onOpenChange, title, description, actionLabel, cancelLabel, onAction, isDestructive, }: AlertDialogProps): react.JSX.Element;
 
-export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };
+declare const spinner: tailwind_variants.TVReturnType<{
+    size: {
+        sm: "h-4 w-4 border-2";
+        md: "h-6 w-6 border-2";
+        lg: "h-10 w-10 border-[3px]";
+    };
+    variant: {
+        default: "text-charcoal";
+        inverse: "text-cream";
+        muted: "text-charcoal/50";
+    };
+}, undefined, "inline-block animate-spin rounded-full border-solid border-current border-r-transparent", {
+    size: {
+        sm: "h-4 w-4 border-2";
+        md: "h-6 w-6 border-2";
+        lg: "h-10 w-10 border-[3px]";
+    };
+    variant: {
+        default: "text-charcoal";
+        inverse: "text-cream";
+        muted: "text-charcoal/50";
+    };
+}, undefined, tailwind_variants.TVReturnTypeLike<{
+    size: {
+        sm: "h-4 w-4 border-2";
+        md: "h-6 w-6 border-2";
+        lg: "h-10 w-10 border-[3px]";
+    };
+    variant: {
+        default: "text-charcoal";
+        inverse: "text-cream";
+        muted: "text-charcoal/50";
+    };
+}, undefined>>;
+interface SpinnerProps extends VariantProps<typeof spinner> {
+    className?: string;
+    label?: string;
+}
+declare function Spinner({ size, variant, className, label }: SpinnerProps): react.JSX.Element;
+
+export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Spinner, type SpinnerProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };

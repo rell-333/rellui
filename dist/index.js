@@ -1155,6 +1155,39 @@ function AlertDialogActions({
     )
   ] });
 }
+
+// src/spinner.tsx
+import { tv as tv27 } from "tailwind-variants";
+import { jsx as jsx28 } from "react/jsx-runtime";
+var spinner = tv27({
+  base: "inline-block animate-spin rounded-full border-solid border-current border-r-transparent",
+  variants: {
+    size: {
+      sm: "h-4 w-4 border-2",
+      md: "h-6 w-6 border-2",
+      lg: "h-10 w-10 border-[3px]"
+    },
+    variant: {
+      default: "text-charcoal",
+      inverse: "text-cream",
+      muted: "text-charcoal/50"
+    }
+  },
+  defaultVariants: {
+    size: "md",
+    variant: "default"
+  }
+});
+function Spinner({ size, variant, className, label: label2 = "Loading" }) {
+  return /* @__PURE__ */ jsx28(
+    "span",
+    {
+      role: "status",
+      "aria-label": label2,
+      className: spinner({ size, variant, className })
+    }
+  );
+}
 export {
   AlertDialog,
   Autocomplete,
@@ -1180,6 +1213,7 @@ export {
   RadioGroup,
   Select,
   Skeleton,
+  Spinner,
   Switch,
   Table,
   Tabs,
