@@ -109,7 +109,12 @@ Autocomplete.Popover = function AutocompletePopover({ className, children }: { c
     const { contains } = useFilter({ sensitivity: "base" })
 
     return (
-        <AriaPopover isOpen={isOpen} onOpenChange={setIsOpen} triggerRef={triggerRef} className={popover({ className })}>
+        <AriaPopover
+            isOpen={isOpen}
+            onOpenChange={setIsOpen}
+            triggerRef={triggerRef as RefObject<HTMLButtonElement>}
+            className={popover({ className })}
+        >
             <AriaAutocomplete filter={contains}>
                 <AriaTextField aria-label="Search" className={searchWrap({})}>
                     <AriaInput placeholder="Search..." className={searchInput({})} />
