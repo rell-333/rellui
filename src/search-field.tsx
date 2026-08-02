@@ -12,7 +12,7 @@ const field = tv({
 })
 
 const input = tv({
-    base: "w-full rounded-xl border-[1.5px] border-sand bg-cream py-2 pl-9 pr-8 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-charcoal focus:ring-2 focus:ring-charcoal/20 disabled:opacity-50 disabled:cursor-not-allowed",
+    base: "w-full rounded-xl border-[1.5px] border-sand bg-cream py-2 pl-9 pr-8 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-charcoal focus:ring-2 focus:ring-charcoal/20 disabled:opacity-50 disabled:cursor-not-allowed [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none",
 })
 
 const icon = tv({
