@@ -811,10 +811,10 @@ function fillColor(percentage) {
   return "bg-danger";
 }
 function Meter({ label: labelText, className, ...props }) {
-  return /* @__PURE__ */ jsx18(AriaMeter, { className: root4({ className }), ...props, children: ({ percentage, valueText }) => /* @__PURE__ */ jsxs9(Fragment2, { children: [
+  return /* @__PURE__ */ jsx18(AriaMeter, { className: root4({ className }), ...props, children: ({ percentage, valueText: valueText2 }) => /* @__PURE__ */ jsxs9(Fragment2, { children: [
     /* @__PURE__ */ jsxs9("div", { className: labelRow({}), children: [
       labelText && /* @__PURE__ */ jsx18("span", { className: label({}), children: labelText }),
-      /* @__PURE__ */ jsx18("span", { className: value({}), children: valueText })
+      /* @__PURE__ */ jsx18("span", { className: value({}), children: valueText2 })
     ] }),
     /* @__PURE__ */ jsx18("div", { className: track({}), children: /* @__PURE__ */ jsx18(
       "div",
@@ -1061,42 +1061,104 @@ import {
   TextField as AriaTextField2,
   Input as AriaInput2,
   ListBox as AriaListBox2,
-  ListBoxItem as AriaListBoxItem2
+  ListBoxItem as AriaListBoxItem2,
+  Button as AriaButton9,
+  Popover as AriaPopover5
 } from "react-aria-components";
 import { tv as tv26 } from "tailwind-variants";
+import { createContext as createContext2, useContext as useContext2, useRef, useState as useState2 } from "react";
 import { jsx as jsx26, jsxs as jsxs15 } from "react/jsx-runtime";
-var inputWrap = tv26({
-  base: "flex items-center rounded-xl border-[1.5px] border-sand bg-cream px-3 py-2 outline-none transition-colors data-[focus-within]:border-charcoal data-[focus-within]:ring-2 data-[focus-within]:ring-charcoal/20"
+var AutocompleteContext = createContext2(null);
+function useAutocompleteContext() {
+  const ctx = useContext2(AutocompleteContext);
+  if (!ctx) throw new Error("Autocomplete.* components must be used inside <Autocomplete>");
+  return ctx;
+}
+var triggerButton = tv26({
+  base: "flex w-full items-center justify-between gap-2 rounded-xl border-[1.5px] border-sand bg-cream px-3 py-2 text-sm text-charcoal outline-none transition-colors data-[hovered]:border-charcoal/40 data-[focus-visible]:border-charcoal data-[focus-visible]:ring-2 data-[focus-visible]:ring-charcoal/20 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
 });
-var input2 = tv26({
-  base: "w-full bg-transparent text-sm text-charcoal outline-none placeholder:text-charcoal/40"
+var valueText = tv26({ base: "flex-1 truncate text-left" });
+var placeholderText = tv26({ base: "flex-1 truncate text-left text-charcoal/40" });
+var clearBtn2 = tv26({
+  base: "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-charcoal/40 transition-colors hover:bg-sand/60 hover:text-charcoal"
 });
-var list4 = tv26({ base: "mt-2 flex max-h-64 flex-col gap-0.5 overflow-auto outline-none" });
+var indicator2 = tv26({ base: "shrink-0 text-charcoal/40" });
+var popover5 = tv26({
+  base: "w-[--trigger-width] overflow-hidden rounded-xl border border-sand bg-cream p-2 shadow-lg outline-none data-[entering]:animate-[modal-fade-in_120ms_ease-out] data-[exiting]:animate-[modal-fade-out_100ms_ease-in]"
+});
+var searchWrap = tv26({
+  base: "mb-2 flex items-center rounded-lg border-[1.5px] border-sand bg-cream px-2 py-1.5 outline-none transition-colors data-[focus-within]:border-charcoal"
+});
+var searchInput = tv26({ base: "w-full bg-transparent text-sm text-charcoal outline-none placeholder:text-charcoal/40" });
+var list4 = tv26({ base: "flex max-h-64 flex-col gap-0.5 overflow-auto outline-none" });
 var item4 = tv26({
   base: "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-sm outline-none transition-colors data-[hovered]:bg-sand/40 data-[focused]:bg-sand/40 data-[selected]:font-semibold data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40"
 });
-function Autocomplete({ placeholder, "aria-label": ariaLabel, children, ...props }) {
-  const { contains } = useFilter({ sensitivity: "base" });
-  return /* @__PURE__ */ jsxs15(AriaAutocomplete, { filter: contains, ...props, children: [
-    /* @__PURE__ */ jsx26(AriaTextField2, { "aria-label": ariaLabel ?? placeholder ?? "Search", className: inputWrap({}), children: /* @__PURE__ */ jsx26(AriaInput2, { placeholder: placeholder ?? "Search...", className: input2({}) }) }),
-    children
-  ] });
+function Autocomplete({ selectedKey = null, onSelectionChange, children }) {
+  const [isOpen, setIsOpen] = useState2(false);
+  const triggerRef = useRef(null);
+  return /* @__PURE__ */ jsx26(
+    AutocompleteContext.Provider,
+    {
+      value: { isOpen, setIsOpen, selectedKey, onSelectionChange: onSelectionChange ?? (() => {
+      }), triggerRef },
+      children: /* @__PURE__ */ jsx26("div", { className: "relative", children })
+    }
+  );
 }
+Autocomplete.Trigger = function AutocompleteTrigger({ className, children }) {
+  const { isOpen, setIsOpen, triggerRef } = useAutocompleteContext();
+  return /* @__PURE__ */ jsx26(AriaButton9, { ref: triggerRef, className: triggerButton({ className }), onPress: () => setIsOpen(!isOpen), children });
+};
+Autocomplete.Value = function AutocompleteValue({ placeholder = "Select\u2026", children }) {
+  const { selectedKey } = useAutocompleteContext();
+  if (!selectedKey || !children) return /* @__PURE__ */ jsx26("span", { className: placeholderText(), children: placeholder });
+  return /* @__PURE__ */ jsx26("span", { className: valueText(), children });
+};
+Autocomplete.ClearButton = function AutocompleteClearButton({ className }) {
+  const { selectedKey, onSelectionChange } = useAutocompleteContext();
+  if (!selectedKey) return null;
+  return /* @__PURE__ */ jsx26(AriaButton9, { className: clearBtn2({ className }), "aria-label": "Clear selection", onPress: () => onSelectionChange(null), children: "\u2715" });
+};
+Autocomplete.Indicator = function AutocompleteIndicator({ className }) {
+  return /* @__PURE__ */ jsx26("svg", { className: indicator2({ className }), width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", "aria-hidden": "true", children: /* @__PURE__ */ jsx26("path", { d: "m6 9 6 6 6-6" }) });
+};
+Autocomplete.Popover = function AutocompletePopover({ className, children }) {
+  const { isOpen, setIsOpen, triggerRef } = useAutocompleteContext();
+  const { contains } = useFilter({ sensitivity: "base" });
+  return /* @__PURE__ */ jsx26(AriaPopover5, { isOpen, onOpenChange: setIsOpen, triggerRef, className: popover5({ className }), children: /* @__PURE__ */ jsxs15(AriaAutocomplete, { filter: contains, children: [
+    /* @__PURE__ */ jsx26(AriaTextField2, { "aria-label": "Search", className: searchWrap({}), children: /* @__PURE__ */ jsx26(AriaInput2, { placeholder: "Search...", className: searchInput({}) }) }),
+    children
+  ] }) });
+};
 Autocomplete.List = function AutocompleteList({
   className,
-  ...props
+  children,
+  renderEmptyState
 }) {
-  return /* @__PURE__ */ jsx26(AriaListBox2, { className: list4({ className }), ...props });
+  const { selectedKey, onSelectionChange, setIsOpen } = useAutocompleteContext();
+  return /* @__PURE__ */ jsx26(
+    AriaListBox2,
+    {
+      className: list4({ className }),
+      selectionMode: "single",
+      selectedKeys: selectedKey ? [selectedKey] : [],
+      onSelectionChange: (keys) => {
+        const key = Array.from(keys)[0] ?? null;
+        onSelectionChange(key);
+        setIsOpen(false);
+      },
+      renderEmptyState,
+      children
+    }
+  );
 };
-Autocomplete.Item = function AutocompleteItem({
-  className,
-  ...props
-}) {
+Autocomplete.Item = function AutocompleteItem({ className, ...props }) {
   return /* @__PURE__ */ jsx26(AriaListBoxItem2, { className: item4({ className }), ...props });
 };
 
 // src/alert-dialog.tsx
-import { useContext as useContext2, useState as useState2 } from "react";
+import { useContext as useContext3, useState as useState3 } from "react";
 import { Fragment as Fragment4, jsx as jsx27, jsxs as jsxs16 } from "react/jsx-runtime";
 function AlertDialog({
   isOpen,
@@ -1109,7 +1171,7 @@ function AlertDialog({
   onAction,
   isDestructive = false
 }) {
-  const [isActionLoading, setIsActionLoading] = useState2(false);
+  const [isActionLoading, setIsActionLoading] = useState3(false);
   return /* @__PURE__ */ jsx27(Modal, { isOpen, defaultOpen, onOpenChange, children: /* @__PURE__ */ jsx27(Modal.Backdrop, { isOpen, onOpenChange, children: /* @__PURE__ */ jsx27(Modal.Container, { size: "sm", children: /* @__PURE__ */ jsxs16(Modal.Dialog, { children: [
     /* @__PURE__ */ jsx27(Modal.Header, { children: /* @__PURE__ */ jsx27(Modal.Heading, { children: title2 }) }),
     description2 && /* @__PURE__ */ jsx27(Modal.Body, { children: description2 }),
@@ -1134,7 +1196,7 @@ function AlertDialogActions({
   isActionLoading,
   setIsActionLoading
 }) {
-  const close = useContext2(ModalCloseContext);
+  const close = useContext3(ModalCloseContext);
   return /* @__PURE__ */ jsxs16(Fragment4, { children: [
     /* @__PURE__ */ jsx27(Button, { variant: "secondary", size: "sm", onPress: close, children: cancelLabel }),
     /* @__PURE__ */ jsx27(
@@ -1194,7 +1256,7 @@ function Spinner({ size, variant, className, label: label2 = "Loading" }) {
 }
 
 // src/avatar.tsx
-import { useState as useState3 } from "react";
+import { useState as useState4 } from "react";
 import { tv as tv28 } from "tailwind-variants";
 import { jsx as jsx29 } from "react/jsx-runtime";
 var avatar = tv28({
@@ -1219,7 +1281,7 @@ function getInitials(name) {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 function Avatar({ src, name, size, className, alt }) {
-  const [hasError, setHasError] = useState3(false);
+  const [hasError, setHasError] = useState4(false);
   const showImage = src && !hasError;
   return /* @__PURE__ */ jsx29("span", { className: avatar({ size, className }), children: showImage ? /* @__PURE__ */ jsx29(
     "img",
@@ -1269,20 +1331,20 @@ function AvatarGroup({ children, max = 4, size = "md", className }) {
 import {
   SearchField as AriaSearchField,
   Input as AriaInput3,
-  Button as AriaButton9
+  Button as AriaButton10
 } from "react-aria-components";
 import { tv as tv30 } from "tailwind-variants";
 import { jsx as jsx31, jsxs as jsxs18 } from "react/jsx-runtime";
 var field = tv30({
   base: "group relative flex w-full items-center"
 });
-var input3 = tv30({
+var input2 = tv30({
   base: "w-full rounded-xl border-[1.5px] border-sand bg-cream py-2 pl-9 pr-8 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-charcoal focus:ring-2 focus:ring-charcoal/20 disabled:opacity-50 disabled:cursor-not-allowed [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
 });
 var icon = tv30({
   base: "pointer-events-none absolute left-3 h-4 w-4 text-charcoal/40"
 });
-var clearBtn2 = tv30({
+var clearBtn3 = tv30({
   base: "absolute right-2 flex h-5 w-5 items-center justify-center rounded-full text-charcoal/40 transition-colors hover:bg-sand/60 hover:text-charcoal group-data-[empty]:invisible"
 });
 function SearchField({ className, placeholder = "Search\u2026", ...props }) {
@@ -1302,8 +1364,8 @@ function SearchField({ className, placeholder = "Search\u2026", ...props }) {
         ]
       }
     ),
-    /* @__PURE__ */ jsx31(AriaInput3, { className: input3(), placeholder }),
-    /* @__PURE__ */ jsx31(AriaButton9, { className: clearBtn2(), "aria-label": "Clear search", children: "\u2715" })
+    /* @__PURE__ */ jsx31(AriaInput3, { className: input2(), placeholder }),
+    /* @__PURE__ */ jsx31(AriaButton10, { className: clearBtn3(), "aria-label": "Clear search", children: "\u2715" })
   ] });
 }
 export {

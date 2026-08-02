@@ -2,7 +2,7 @@ import * as react from 'react';
 import { InputHTMLAttributes, HTMLAttributes, ReactNode, ComponentProps, ReactElement } from 'react';
 import * as tailwind_variants from 'tailwind-variants';
 import { VariantProps } from 'tailwind-variants';
-import { ButtonProps as ButtonProps$1, TextFieldProps as TextFieldProps$1, ModalOverlay, Modal as Modal$1, TableProps, TableHeaderProps, ColumnProps, TableBodyProps, CollectionProps, RowProps, CellProps, MenuTriggerProps, PopoverProps as PopoverProps$1, MenuProps as MenuProps$1, MenuItemProps, LinkProps, BreadcrumbsProps as BreadcrumbsProps$1, DateValue, CalendarProps as CalendarProps$1, CalendarGridProps, CalendarGridBodyProps, CalendarCellProps, CheckboxProps as CheckboxProps$1, DateFieldProps as DateFieldProps$1, DatePickerProps as DatePickerProps$1, DisclosureProps as DisclosureProps$1, DisclosureGroupProps as DisclosureGroupProps$1, DropZoneProps as DropZoneProps$1, MeterProps as MeterProps$1, RadioFieldProps, RadioGroupProps as RadioGroupProps$1, SelectProps as SelectProps$1, ListBoxItemProps, SwitchFieldProps, TooltipProps as TooltipProps$1, TabsProps as TabsProps$1, TabListProps, TabProps as TabProps$1, TabPanelsProps, TabPanelProps, AutocompleteProps as AutocompleteProps$1, ListBoxProps, SearchFieldProps as SearchFieldProps$1 } from 'react-aria-components';
+import { ButtonProps as ButtonProps$1, TextFieldProps as TextFieldProps$1, ModalOverlay, Modal as Modal$1, TableProps, TableHeaderProps, ColumnProps, TableBodyProps, CollectionProps, RowProps, CellProps, MenuTriggerProps, PopoverProps as PopoverProps$1, MenuProps as MenuProps$1, MenuItemProps, LinkProps, BreadcrumbsProps as BreadcrumbsProps$1, DateValue, CalendarProps as CalendarProps$1, CalendarGridProps, CalendarGridBodyProps, CalendarCellProps, CheckboxProps as CheckboxProps$1, DateFieldProps as DateFieldProps$1, DatePickerProps as DatePickerProps$1, DisclosureProps as DisclosureProps$1, DisclosureGroupProps as DisclosureGroupProps$1, DropZoneProps as DropZoneProps$1, MeterProps as MeterProps$1, RadioFieldProps, RadioGroupProps as RadioGroupProps$1, SelectProps as SelectProps$1, ListBoxItemProps, SwitchFieldProps, TooltipProps as TooltipProps$1, TabsProps as TabsProps$1, TabListProps, TabProps as TabProps$1, TabPanelsProps, TabPanelProps, Key, SearchFieldProps as SearchFieldProps$1 } from 'react-aria-components';
 export { DialogTrigger, TooltipTrigger } from 'react-aria-components';
 
 declare const button: tailwind_variants.TVReturnType<{
@@ -343,15 +343,35 @@ declare namespace Tabs {
     }) => react.JSX.Element;
 }
 
-interface AutocompleteProps extends Omit<AutocompleteProps$1, "children"> {
-    placeholder?: string;
-    "aria-label"?: string;
+interface AutocompleteProps {
+    selectedKey?: Key | null;
+    onSelectionChange?: (key: Key | null) => void;
     children: ReactNode;
 }
-declare function Autocomplete({ placeholder, "aria-label": ariaLabel, children, ...props }: AutocompleteProps): react.JSX.Element;
+declare function Autocomplete({ selectedKey, onSelectionChange, children }: AutocompleteProps): react.JSX.Element;
 declare namespace Autocomplete {
-    var List: <T extends object>({ className, ...props }: Omit<ListBoxProps<T>, "className"> & {
+    var Trigger: ({ className, children }: {
         className?: string;
+        children: ReactNode;
+    }) => react.JSX.Element;
+    var Value: ({ placeholder, children }: {
+        placeholder?: string;
+        children?: ReactNode;
+    }) => react.JSX.Element;
+    var ClearButton: ({ className }: {
+        className?: string;
+    }) => react.JSX.Element | null;
+    var Indicator: ({ className }: {
+        className?: string;
+    }) => react.JSX.Element;
+    var Popover: ({ className, children }: {
+        className?: string;
+        children: ReactNode;
+    }) => react.JSX.Element;
+    var List: ({ className, children, renderEmptyState, }: {
+        className?: string;
+        children: ReactNode;
+        renderEmptyState?: () => ReactNode;
     }) => react.JSX.Element;
     var Item: ({ className, ...props }: Omit<ListBoxItemProps, "className"> & {
         className?: string;
