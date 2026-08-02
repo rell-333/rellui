@@ -41,7 +41,7 @@ const clearBtn = tv({
 })
 const indicator = tv({ base: "shrink-0 text-charcoal/40" })
 const popover = tv({
-    base: "w-[--trigger-width] overflow-hidden rounded-xl border border-sand bg-cream p-2 shadow-lg outline-none data-[entering]:animate-[modal-fade-in_120ms_ease-out] data-[exiting]:animate-[modal-fade-out_100ms_ease-in]",
+    base: "w-[var(--trigger-width)] overflow-hidden rounded-xl border border-sand bg-cream p-2 shadow-lg outline-none data-[entering]:animate-[modal-fade-in_120ms_ease-out] data-[exiting]:animate-[modal-fade-out_100ms_ease-in]",
 })
 const searchWrap = tv({
     base: "mb-2 flex items-center rounded-lg border-[1.5px] border-sand bg-cream px-2 py-1.5 outline-none transition-colors data-[focus-within]:border-charcoal",
