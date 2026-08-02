@@ -10,6 +10,7 @@ declare const button: tailwind_variants.TVReturnType<{
         primary: "bg-charcoal text-cream hover:opacity-90 focus-visible:ring-charcoal";
         secondary: "bg-sand text-charcoal hover:opacity-90 focus-visible:ring-sand";
         danger: "bg-danger text-white hover:opacity-90 focus-visible:ring-danger";
+        ghost: "bg-transparent text-charcoal hover:bg-sand/40 focus-visible:ring-sand";
     };
     size: {
         sm: "px-3 py-1.5 text-sm";
@@ -21,6 +22,7 @@ declare const button: tailwind_variants.TVReturnType<{
         primary: "bg-charcoal text-cream hover:opacity-90 focus-visible:ring-charcoal";
         secondary: "bg-sand text-charcoal hover:opacity-90 focus-visible:ring-sand";
         danger: "bg-danger text-white hover:opacity-90 focus-visible:ring-danger";
+        ghost: "bg-transparent text-charcoal hover:bg-sand/40 focus-visible:ring-sand";
     };
     size: {
         sm: "px-3 py-1.5 text-sm";
@@ -32,6 +34,7 @@ declare const button: tailwind_variants.TVReturnType<{
         primary: "bg-charcoal text-cream hover:opacity-90 focus-visible:ring-charcoal";
         secondary: "bg-sand text-charcoal hover:opacity-90 focus-visible:ring-sand";
         danger: "bg-danger text-white hover:opacity-90 focus-visible:ring-danger";
+        ghost: "bg-transparent text-charcoal hover:bg-sand/40 focus-visible:ring-sand";
     };
     size: {
         sm: "px-3 py-1.5 text-sm";
