@@ -107,10 +107,11 @@ interface ModalDialogProps {
 
 interface ChipProps extends Omit<HTMLAttributes<HTMLSpanElement>, "className"> {
     variant?: "default" | "success" | "warning" | "danger" | "accented";
+    size?: "sm" | "md" | "lg";
     onRemove?: () => void;
     className?: string;
 }
-declare function Chip({ variant, onRemove, className, children, ...props }: ChipProps): react.JSX.Element;
+declare function Chip({ variant, size, onRemove, className, children, ...props }: ChipProps): react.JSX.Element;
 
 type DivProps$1 = Omit<HTMLAttributes<HTMLDivElement>, "className"> & {
     className?: string;
@@ -258,7 +259,7 @@ type Variant = "image" | "audio" | "default";
 interface FileUploadProps {
     variant?: Variant;
     acceptedFileTypes?: string[];
-    validate?: (file: File) => string | null;
+    validate?: (file: File) => string | null | Promise<string | null>;
     hint?: string;
     className?: string;
     onFileSelect: (file: File | null) => void;

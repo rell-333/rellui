@@ -199,7 +199,7 @@ Modal.Footer = function ModalFooter({ className, ...props }) {
 import { tv as tv5 } from "tailwind-variants";
 import { jsx as jsx5, jsxs as jsxs2 } from "react/jsx-runtime";
 var chip = tv5({
-  base: "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold",
+  base: "inline-flex items-center gap-1 rounded-full font-semibold",
   variants: {
     variant: {
       default: "bg-sand text-charcoal",
@@ -207,17 +207,33 @@ var chip = tv5({
       warning: "bg-warning/20 text-warning",
       danger: "bg-clay/10 text-clay",
       accented: "bg-indigo text-cream"
+    },
+    size: {
+      sm: "px-2 py-0.5 text-[10px]",
+      md: "px-2.5 py-1 text-xs",
+      lg: "px-3 py-1.5 text-sm"
     }
   },
   defaultVariants: {
-    variant: "default"
+    variant: "default",
+    size: "md"
   }
 });
 var removeBtn = tv5({
-  base: "-mr-1 flex h-3.5 w-3.5 items-center justify-center rounded-full opacity-60 transition-opacity hover:opacity-100"
+  base: "-mr-1 flex items-center justify-center rounded-full opacity-60 transition-opacity hover:opacity-100",
+  variants: {
+    size: {
+      sm: "h-3 w-3",
+      md: "h-3.5 w-3.5",
+      lg: "h-4 w-4"
+    }
+  },
+  defaultVariants: {
+    size: "md"
+  }
 });
-function Chip({ variant, onRemove, className, children, ...props }) {
-  return /* @__PURE__ */ jsxs2("span", { className: chip({ variant, className }), ...props, children: [
+function Chip({ variant, size, onRemove, className, children, ...props }) {
+  return /* @__PURE__ */ jsxs2("span", { className: chip({ variant, size, className }), ...props, children: [
     children,
     onRemove && /* @__PURE__ */ jsx5(
       "button",
@@ -225,7 +241,7 @@ function Chip({ variant, onRemove, className, children, ...props }) {
         type: "button",
         onClick: onRemove,
         "aria-label": "Remove",
-        className: removeBtn({}),
+        className: removeBtn({ size }),
         children: "\u2715"
       }
     )
@@ -745,9 +761,9 @@ function FileUpload({
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(null);
   const accept = acceptedFileTypes ?? DEFAULT_ACCEPT[variant];
-  function acceptFile(file) {
+  async function acceptFile(file) {
     setError(null);
-    const validationError = validate?.(file);
+    const validationError = await validate?.(file);
     if (validationError) {
       setError(validationError);
       return;

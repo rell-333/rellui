@@ -62,7 +62,7 @@ const DEFAULT_HINT: Record<Variant, string> = {
 export interface FileUploadProps {
     variant?: Variant
     acceptedFileTypes?: string[]
-    validate?: (file: File) => string | null
+    validate?: (file: File) => string | null | Promise<string | null>
     hint?: string
     className?: string
     onFileSelect: (file: File | null) => void
@@ -82,10 +82,10 @@ export function FileUpload({
 
     const accept = acceptedFileTypes ?? DEFAULT_ACCEPT[variant]
 
-    function acceptFile(file: File) {
+    async function acceptFile(file: File) {
         setError(null)
 
-        const validationError = validate?.(file)
+        const validationError = await validate?.(file)
         if (validationError) {
             setError(validationError)
             return
