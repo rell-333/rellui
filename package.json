@@ -1,6 +1,6 @@
 {
   "name": "@rell333/rellui",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "type": "module",
   "description": "A React component library built on React Aria Components and Tailwind CSS v4",
   "main": "./dist/index.js",
