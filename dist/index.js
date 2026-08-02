@@ -442,7 +442,7 @@ var panel = tv8({
   defaultVariants: { variant: "default" }
 });
 var titleStyle = tv8({ base: "text-sm font-semibold" });
-var descriptionStyle = tv8({ base: "mt-0.5 text-xs opacity-80" });
+var descriptionStyle = tv8({ base: "mt-0.5 truncate text-xs opacity-80" });
 var closeBtn2 = tv8({ base: "ml-auto shrink-0 rounded-full p-1 text-current opacity-60 transition-opacity hover:opacity-100" });
 function Toaster() {
   return /* @__PURE__ */ jsx8(AriaToastRegion, { queue: toastQueue, className: region({}), children: ({ toast: t }) => /* @__PURE__ */ jsxs3(
@@ -455,7 +455,7 @@ function Toaster() {
         viewTransitionClass: "rellui-toast"
       },
       children: [
-        /* @__PURE__ */ jsxs3(AriaToastContent, { className: "flex flex-col", children: [
+        /* @__PURE__ */ jsxs3(AriaToastContent, { className: "flex min-w-0 flex-col", children: [
           /* @__PURE__ */ jsx8(Text2, { slot: "title", className: titleStyle({}), children: t.content.title }),
           t.content.description && /* @__PURE__ */ jsx8(Text2, { slot: "description", className: descriptionStyle({}), children: t.content.description })
         ] }),

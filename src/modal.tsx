@@ -101,7 +101,7 @@ Modal.Container = function ModalContainer({
                                               className,
                                               ...props
                                           }: Omit<ComponentProps<typeof AriaModal>, "className"> & {
-    size?: "sm" | "md" | "lg" | "cover"
+    size?: "sm" | "md" | "lg" | "cover" | "xl"
     className?: string
 }) {
     return <AriaModal className={container({ size, className })} {...props} />

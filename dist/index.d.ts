@@ -88,7 +88,7 @@ declare namespace Modal {
         className?: string;
     }) => react.JSX.Element;
     var Container: ({ size, className, ...props }: Omit<ComponentProps<typeof Modal$1>, "className"> & {
-        size?: "sm" | "md" | "lg" | "cover";
+        size?: "sm" | "md" | "lg" | "cover" | "xl";
         className?: string;
     }) => react.JSX.Element;
     var Dialog: ({ className, children }: ModalDialogProps) => react.JSX.Element;
