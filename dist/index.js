@@ -1126,10 +1126,19 @@ Autocomplete.Indicator = function AutocompleteIndicator({ className }) {
 Autocomplete.Popover = function AutocompletePopover({ className, children }) {
   const { isOpen, setIsOpen, triggerRef } = useAutocompleteContext();
   const { contains } = useFilter({ sensitivity: "base" });
-  return /* @__PURE__ */ jsx26(AriaPopover5, { isOpen, onOpenChange: setIsOpen, triggerRef, className: popover5({ className }), children: /* @__PURE__ */ jsxs15(AriaAutocomplete, { filter: contains, children: [
-    /* @__PURE__ */ jsx26(AriaTextField2, { "aria-label": "Search", className: searchWrap({}), children: /* @__PURE__ */ jsx26(AriaInput2, { placeholder: "Search...", className: searchInput({}) }) }),
-    children
-  ] }) });
+  return /* @__PURE__ */ jsx26(
+    AriaPopover5,
+    {
+      isOpen,
+      onOpenChange: setIsOpen,
+      triggerRef,
+      className: popover5({ className }),
+      children: /* @__PURE__ */ jsxs15(AriaAutocomplete, { filter: contains, children: [
+        /* @__PURE__ */ jsx26(AriaTextField2, { "aria-label": "Search", className: searchWrap({}), children: /* @__PURE__ */ jsx26(AriaInput2, { placeholder: "Search...", className: searchInput({}) }) }),
+        children
+      ] })
+    }
+  );
 };
 Autocomplete.List = function AutocompleteList({
   className,
