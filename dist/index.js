@@ -1085,7 +1085,7 @@ var clearBtn2 = tv26({
 });
 var indicator2 = tv26({ base: "shrink-0 text-charcoal/40" });
 var popover5 = tv26({
-  base: "w-[--trigger-width] overflow-hidden rounded-xl border border-sand bg-cream p-2 shadow-lg outline-none data-[entering]:animate-[modal-fade-in_120ms_ease-out] data-[exiting]:animate-[modal-fade-out_100ms_ease-in]"
+  base: "w-[var(--trigger-width)] overflow-hidden rounded-xl border border-sand bg-cream p-2 shadow-lg outline-none data-[entering]:animate-[modal-fade-in_120ms_ease-out] data-[exiting]:animate-[modal-fade-out_100ms_ease-in]"
 });
 var searchWrap = tv26({
   base: "mb-2 flex items-center rounded-lg border-[1.5px] border-sand bg-cream px-2 py-1.5 outline-none transition-colors data-[focus-within]:border-charcoal"
