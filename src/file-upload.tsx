@@ -125,9 +125,9 @@ export function FileUpload({
 
                 {preview ? (
                     <img src={preview} alt="preview" className="h-24 w-24 rounded-xl object-cover" />
-                ) : (
+                ) : !fileName ? (
                     ICONS[variant]
-                )}
+                ) : null}
 
                 {fileName && !preview && <p className={fileNameStyle({})}>{fileName}</p>}
 

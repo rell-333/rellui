@@ -813,7 +813,7 @@ function FileUpload({
         },
         children: [
           fileName && /* @__PURE__ */ jsx17("button", { type: "button", onClick: clear, className: clearBtn({}), "aria-label": "Remove file", children: "\u2715" }),
-          preview ? /* @__PURE__ */ jsx17("img", { src: preview, alt: "preview", className: "h-24 w-24 rounded-xl object-cover" }) : ICONS[variant],
+          preview ? /* @__PURE__ */ jsx17("img", { src: preview, alt: "preview", className: "h-24 w-24 rounded-xl object-cover" }) : !fileName ? ICONS[variant] : null,
           fileName && !preview && /* @__PURE__ */ jsx17("p", { className: fileNameStyle({}), children: fileName }),
           /* @__PURE__ */ jsx17(
             FileTrigger,
