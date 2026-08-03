@@ -495,8 +495,9 @@ var current = tv9({ base: "font-semibold text-charcoal" });
 function Breadcrumbs({ className, ...props }) {
   return /* @__PURE__ */ jsx9(AriaBreadcrumbs, { className: list2({ className }), ...props });
 }
-Breadcrumbs.Item = function BreadcrumbItem({ href, children, className, ...props }) {
-  return /* @__PURE__ */ jsx9(AriaBreadcrumb, { className: item2({}), children: href ? /* @__PURE__ */ jsx9(AriaLink, { href, className: link({ className }), ...props, children }) : /* @__PURE__ */ jsx9("span", { "aria-current": "page", className: current({ className }), children }) });
+Breadcrumbs.Item = function BreadcrumbItem({ href, onPress, children, className, ...props }) {
+  const isInteractive = href || onPress;
+  return /* @__PURE__ */ jsx9(AriaBreadcrumb, { className: item2({}), children: isInteractive ? /* @__PURE__ */ jsx9(AriaLink, { href, onPress, className: link({ className }), ...props, children }) : /* @__PURE__ */ jsx9("span", { "aria-current": "page", className: current({ className }), children }) });
 };
 
 // src/calendar.tsx
@@ -1444,8 +1445,175 @@ function SearchField({ className, placeholder = "Search\u2026", ...props }) {
     /* @__PURE__ */ jsx31(AriaButton10, { className: clearBtn3(), "aria-label": "Clear search", children: "\u2715" })
   ] });
 }
+
+// src/audio-player.tsx
+import { useEffect, useRef as useRef2, useState as useState5 } from "react";
+import { tv as tv31 } from "tailwind-variants";
+import { jsx as jsx32, jsxs as jsxs19 } from "react/jsx-runtime";
+var timeText = tv31({ base: "text-xs text-charcoal/40 tabular-nums" });
+var iconBtn = tv31({
+  base: "flex shrink-0 items-center justify-center text-charcoal/40 outline-none transition-colors hover:text-charcoal data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-accent"
+});
+var popover6 = tv31({
+  base: "absolute bottom-full mb-3 flex items-center justify-center rounded-full border border-sand bg-cream p-2 shadow-lg"
+});
+function formatTime(seconds) {
+  if (!seconds || isNaN(seconds)) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
+function AudioPlayer({ src, filename, className }) {
+  const audioRef = useRef2(null);
+  const volumeWrapperRef = useRef2(null);
+  const [isPlaying, setIsPlaying] = useState5(false);
+  const [currentTime, setCurrentTime] = useState5(0);
+  const [duration, setDuration] = useState5(0);
+  const [volume, setVolume] = useState5(80);
+  const [isMuted, setIsMuted] = useState5(false);
+  const [showVolume, setShowVolume] = useState5(false);
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const updateTime = () => setCurrentTime(audio.currentTime);
+    const updateDuration = () => setDuration(audio.duration || 0);
+    const handleEnded = () => setIsPlaying(false);
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("loadedmetadata", updateDuration);
+    audio.addEventListener("ended", handleEnded);
+    return () => {
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("loadedmetadata", updateDuration);
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume / 100;
+    }
+  }, [volume, isMuted]);
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (volumeWrapperRef.current && !volumeWrapperRef.current.contains(e.target)) {
+        setShowVolume(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  function togglePlay() {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      void audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  }
+  function handleScrub(e) {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const newTime = Number(e.target.value);
+    audio.currentTime = newTime;
+    setCurrentTime(newTime);
+  }
+  const scrubPercent = duration ? currentTime / duration * 100 : 0;
+  const volumePercent = isMuted ? 0 : volume;
+  return /* @__PURE__ */ jsxs19(Card, { className: `w-full max-w-lg p-5 pt-8 ${className ?? ""}`, children: [
+    /* @__PURE__ */ jsx32("audio", { ref: audioRef, src, preload: "metadata" }),
+    /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-3", children: [
+      /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-1", children: [
+        /* @__PURE__ */ jsx32(
+          "input",
+          {
+            type: "range",
+            min: 0,
+            max: duration || 100,
+            step: 1,
+            value: currentTime,
+            onChange: handleScrub,
+            "aria-label": "Seek",
+            className: "rellui-audio-range",
+            style: { "--fill-percent": `${scrubPercent}%` }
+          }
+        ),
+        /* @__PURE__ */ jsxs19("div", { className: "flex justify-between", children: [
+          /* @__PURE__ */ jsx32("span", { className: timeText(), children: formatTime(currentTime) }),
+          /* @__PURE__ */ jsx32("span", { className: timeText(), children: formatTime(duration) })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-3", children: [
+        /* @__PURE__ */ jsx32("div", { className: "flex w-6 shrink-0 justify-center", children: /* @__PURE__ */ jsx32(
+          "a",
+          {
+            href: src,
+            download: filename,
+            "aria-label": "Download",
+            className: iconBtn(),
+            children: /* @__PURE__ */ jsxs19("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
+              /* @__PURE__ */ jsx32("path", { d: "M12 3v12", strokeLinecap: "round" }),
+              /* @__PURE__ */ jsx32("path", { d: "m7 11 5 5 5-5", strokeLinecap: "round", strokeLinejoin: "round" }),
+              /* @__PURE__ */ jsx32("path", { d: "M5 21h14", strokeLinecap: "round" })
+            ] })
+          }
+        ) }),
+        /* @__PURE__ */ jsx32("div", { className: "flex flex-1 justify-center", children: /* @__PURE__ */ jsx32(
+          Button,
+          {
+            variant: "primary",
+            onPress: togglePlay,
+            "aria-label": isPlaying ? "Pause" : "Play",
+            className: "!size-11 !rounded-full !p-0",
+            children: isPlaying ? /* @__PURE__ */ jsxs19("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "currentColor", children: [
+              /* @__PURE__ */ jsx32("rect", { x: "6", y: "4", width: "4", height: "16", rx: "1" }),
+              /* @__PURE__ */ jsx32("rect", { x: "14", y: "4", width: "4", height: "16", rx: "1" })
+            ] }) : /* @__PURE__ */ jsx32("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "currentColor", className: "ml-0.5", children: /* @__PURE__ */ jsx32("path", { d: "M6 4l14 8-14 8V4z" }) })
+          }
+        ) }),
+        /* @__PURE__ */ jsxs19("div", { ref: volumeWrapperRef, className: "relative flex w-6 shrink-0 justify-center", children: [
+          showVolume && /* @__PURE__ */ jsx32("div", { className: popover6(), children: /* @__PURE__ */ jsx32(
+            "input",
+            {
+              type: "range",
+              min: 0,
+              max: 100,
+              step: 1,
+              value: volumePercent,
+              onChange: (e) => {
+                const newVolume = Number(e.target.value);
+                setVolume(newVolume);
+                if (newVolume > 0) setIsMuted(false);
+              },
+              "aria-label": "Volume",
+              className: "rellui-audio-range rellui-audio-range--vertical",
+              style: { "--fill-percent": `${volumePercent}%` }
+            }
+          ) }),
+          /* @__PURE__ */ jsx32(
+            "button",
+            {
+              type: "button",
+              onClick: () => setShowVolume(!showVolume),
+              "aria-label": "Volume",
+              className: iconBtn(),
+              children: isMuted || volume === 0 ? /* @__PURE__ */ jsxs19("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
+                /* @__PURE__ */ jsx32("path", { d: "M11 5 6 9H2v6h4l5 4V5z", strokeLinecap: "round", strokeLinejoin: "round" }),
+                /* @__PURE__ */ jsx32("path", { d: "m17 9 4 6M21 9l-4 6", strokeLinecap: "round" })
+              ] }) : /* @__PURE__ */ jsxs19("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
+                /* @__PURE__ */ jsx32("path", { d: "M11 5 6 9H2v6h4l5 4V5z", strokeLinecap: "round", strokeLinejoin: "round" }),
+                /* @__PURE__ */ jsx32("path", { d: "M15.5 8.5a5 5 0 0 1 0 7", strokeLinecap: "round" })
+              ] })
+            }
+          )
+        ] })
+      ] })
+    ] })
+  ] });
+}
 export {
   AlertDialog,
+  AudioPlayer,
   Autocomplete,
   Avatar,
   AvatarGroup,

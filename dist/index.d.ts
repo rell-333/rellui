@@ -181,7 +181,7 @@ interface BreadcrumbsProps<T extends object> extends Omit<BreadcrumbsProps$1<T>,
 }
 declare function Breadcrumbs<T extends object>({ className, ...props }: BreadcrumbsProps<T>): react.JSX.Element;
 declare namespace Breadcrumbs {
-    var Item: ({ href, children, className, ...props }: BreadcrumbItemProps) => react.JSX.Element;
+    var Item: ({ href, onPress, children, className, ...props }: BreadcrumbItemProps) => react.JSX.Element;
 }
 interface BreadcrumbItemProps extends Omit<LinkProps, "className" | "children"> {
     href?: string;
@@ -496,4 +496,11 @@ interface SearchFieldProps extends Omit<SearchFieldProps$1, "className"> {
 }
 declare function SearchField({ className, placeholder, ...props }: SearchFieldProps): react.JSX.Element;
 
-export { AlertDialog, type AlertDialogProps, Autocomplete, type AutocompleteProps, Avatar, AvatarGroup, type AvatarGroupProps, type AvatarProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, SearchField, type SearchFieldProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Spinner, type SpinnerProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };
+interface AudioPlayerProps {
+    src: string;
+    filename?: string;
+    className?: string;
+}
+declare function AudioPlayer({ src, filename, className }: AudioPlayerProps): react.JSX.Element;
+
+export { AlertDialog, type AlertDialogProps, AudioPlayer, type AudioPlayerProps, Autocomplete, type AutocompleteProps, Avatar, AvatarGroup, type AvatarGroupProps, type AvatarProps, type BreadcrumbItemProps, Breadcrumbs, type BreadcrumbsProps, Button, type ButtonProps, Calendar, type CalendarProps, Card, type CardProps, Checkbox, type CheckboxProps, Chip, type ChipProps, DateField, type DateFieldProps, DatePicker, type DatePickerProps, Disclosure, DisclosureGroup, type DisclosureGroupProps, type DisclosureProps, DropZone, type DropZoneProps, EmptyState, FileUpload, type FileUploadProps, Menu, type MenuProps, Meter, type MeterProps, Modal, type ModalProps, Popover, type PopoverProps, Radio, RadioGroup, type RadioGroupProps, type RadioProps, SearchField, type SearchFieldProps, Select, type SelectItemProps, type SelectProps, Skeleton, type SkeletonProps, Spinner, type SpinnerProps, Switch, type SwitchProps, Table, Tabs, type TabsProps, TextField, type TextFieldProps, Toaster, Tooltip, type TooltipProps, toast };

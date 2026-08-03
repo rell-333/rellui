@@ -127,3 +127,68 @@ html {
 ::view-transition-new(.rellui-toast):only-child {
     animation: toast-slide-in 200ms ease-out forwards;
 }
+
+/* add to theme.css */
+
+.rellui-audio-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 3px;
+    border-radius: 9999px;
+    background: linear-gradient(
+            to right,
+            var(--color-charcoal) 0%,
+            var(--color-charcoal) var(--fill-percent),
+            var(--color-sand) var(--fill-percent),
+            var(--color-sand) 100%
+    );
+    outline: none;
+    cursor: pointer;
+}
+
+.rellui-audio-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-charcoal);
+    border: 2px solid var(--color-cream);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.rellui-audio-range::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-charcoal);
+    border: 2px solid var(--color-cream);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.rellui-audio-range--vertical {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    width: 4px;
+    height: 80px;
+    background: linear-gradient(
+            to top,
+            var(--color-charcoal) 0%,
+            var(--color-charcoal) var(--fill-percent),
+            var(--color-sand) var(--fill-percent),
+            var(--color-sand) 100%
+    );
+}
+
+.rellui-audio-range--vertical::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+}
+
+.rellui-audio-range--vertical::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+}
