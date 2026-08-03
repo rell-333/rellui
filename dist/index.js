@@ -496,8 +496,17 @@ function Breadcrumbs({ className, ...props }) {
   return /* @__PURE__ */ jsx9(AriaBreadcrumbs, { className: list2({ className }), ...props });
 }
 Breadcrumbs.Item = function BreadcrumbItem({ href, onPress, children, className, ...props }) {
-  const isInteractive = href || onPress;
-  return /* @__PURE__ */ jsx9(AriaBreadcrumb, { className: item2({}), children: isInteractive ? /* @__PURE__ */ jsx9(AriaLink, { href, onPress, className: link({ className }), ...props, children }) : /* @__PURE__ */ jsx9("span", { "aria-current": "page", className: current({ className }), children }) });
+  const isInteractive = Boolean(href) || Boolean(onPress);
+  return /* @__PURE__ */ jsx9(AriaBreadcrumb, { className: item2({}), children: isInteractive ? /* @__PURE__ */ jsx9(
+    AriaLink,
+    {
+      ...href ? { href } : {},
+      onPress,
+      className: link({ className }),
+      ...props,
+      children
+    }
+  ) : /* @__PURE__ */ jsx9("span", { "aria-current": "page", className: current({ className }), children }) });
 };
 
 // src/calendar.tsx

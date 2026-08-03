@@ -35,12 +35,17 @@ export interface BreadcrumbItemProps extends Omit<AriaLinkProps, "className" | "
 }
 
 Breadcrumbs.Item = function BreadcrumbItem({ href, onPress, children, className, ...props }: BreadcrumbItemProps) {
-    const isInteractive = href || onPress
+    const isInteractive = Boolean(href) || Boolean(onPress)
 
     return (
         <AriaBreadcrumb className={item({})}>
             {isInteractive ? (
-                <AriaLink href={href} onPress={onPress} className={link({ className })} {...props}>
+                <AriaLink
+                    {...(href ? { href } : {})}
+                    onPress={onPress}
+                    className={link({ className })}
+                    {...props}
+                >
                     {children}
                 </AriaLink>
             ) : (
