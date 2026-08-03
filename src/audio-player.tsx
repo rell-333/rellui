@@ -8,7 +8,7 @@ import { Button } from "./button"
 
 const timeText = tv({ base: "text-xs text-charcoal/40 tabular-nums" })
 const iconBtn = tv({
-    base: "flex shrink-0 items-center justify-center text-charcoal/40 outline-none transition-colors hover:text-charcoal data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-accent",
+    base: "flex shrink-0 items-center justify-center text-charcoal/40 outline-none transition-colors hover:text-charcoal disabled:cursor-not-allowed disabled:opacity-40 data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-accent",
 })
 const popover = tv({
     base: "absolute bottom-full mb-3 flex items-center justify-center rounded-full border border-sand bg-cream p-2 shadow-lg",
@@ -40,6 +40,7 @@ export function AudioPlayer({ src, filename, className }: AudioPlayerProps) {
     const [volume, setVolume] = useState(80)
     const [isMuted, setIsMuted] = useState(false)
     const [showVolume, setShowVolume] = useState(false)
+    const [downloading, setDownloading] = useState(false)
 
     useEffect(() => {
         const audio = audioRef.current
@@ -95,6 +96,28 @@ export function AudioPlayer({ src, filename, className }: AudioPlayerProps) {
         setCurrentTime(newTime)
     }
 
+    async function handleDownload() {
+        setDownloading(true)
+        try {
+            const res = await fetch(src)
+            const blob = await res.blob()
+            const objectUrl = URL.createObjectURL(blob)
+
+            const link = document.createElement("a")
+            link.href = objectUrl
+            link.download = filename ?? "track"
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+
+            URL.revokeObjectURL(objectUrl)
+        } catch {
+            // silent — a failed download shouldn't disrupt playback
+        } finally {
+            setDownloading(false)
+        }
+    }
+
     const scrubPercent = duration ? (currentTime / duration) * 100 : 0
     const volumePercent = isMuted ? 0 : volume
 
@@ -123,82 +146,89 @@ export function AudioPlayer({ src, filename, className }: AudioPlayerProps) {
 
                 <div className="flex items-center gap-3">
                     <div className="flex w-6 shrink-0 justify-center">
-                        <a
-                        href={src}
-                        download={filename}
-                        aria-label="Download"
-                        className={iconBtn()}
+                        <button
+                            type="button"
+                            onClick={handleDownload}
+                            disabled={downloading}
+                            aria-label="Download"
+                            className={iconBtn()}
                         >
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth={2}>
-                            <path d="M12 3v12" strokeLinecap="round" />
-                            <path d="m7 11 5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M5 21h14" strokeLinecap="round" />
-                        </svg>
-                    </a>
-                </div>
+                            {downloading ? (
+                                <svg viewBox="0 0 24 24" width="16" height="16" className="animate-spin" fill="none" stroke="currentColor" strokeWidth={2}>
+                                    <path d="M21 12a9 9 0 1 1-9-9" strokeLinecap="round" />
+                                </svg>
+                            ) : (
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth={2}>
+                                    <path d="M12 3v12" strokeLinecap="round" />
+                                    <path d="m7 11 5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M5 21h14" strokeLinecap="round" />
+                                </svg>
+                            )}
+                        </button>
+                    </div>
 
-                <div className="flex flex-1 justify-center">
-                    <Button
-                        variant="primary"
-                        onPress={togglePlay}
-                        aria-label={isPlaying ? "Pause" : "Play"}
-                        className="!size-11 !rounded-full !p-0"
-                    >
-                        {isPlaying ? (
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                                <rect x="6" y="4" width="4" height="16" rx="1" />
-                                <rect x="14" y="4" width="4" height="16" rx="1" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" className="ml-0.5">
-                                <path d="M6 4l14 8-14 8V4z" />
-                            </svg>
+                    <div className="flex flex-1 justify-center">
+                        <Button
+                            variant="primary"
+                            onPress={togglePlay}
+                            aria-label={isPlaying ? "Pause" : "Play"}
+                            className="!size-11 !rounded-full !p-0"
+                        >
+                            {isPlaying ? (
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                                </svg>
+                            ) : (
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" className="ml-0.5">
+                                    <path d="M6 4l14 8-14 8V4z" />
+                                </svg>
+                            )}
+                        </Button>
+                    </div>
+
+                    <div ref={volumeWrapperRef} className="relative flex w-6 shrink-0 justify-center">
+                        {showVolume && (
+                            <div className={popover()}>
+                                <input
+                                    type="range"
+                                    min={0}
+                                    max={100}
+                                    step={1}
+                                    value={volumePercent}
+                                    onChange={(e) => {
+                                        const newVolume = Number(e.target.value)
+                                        setVolume(newVolume)
+                                        if (newVolume > 0) setIsMuted(false)
+                                    }}
+                                    aria-label="Volume"
+                                    className="rellui-audio-range rellui-audio-range--vertical"
+                                    style={{ "--fill-percent": `${volumePercent}%` } as CSSPropertiesWithVars}
+                                />
+                            </div>
                         )}
-                    </Button>
-                </div>
 
-                <div ref={volumeWrapperRef} className="relative flex w-6 shrink-0 justify-center">
-                    {showVolume && (
-                        <div className={popover()}>
-                            <input
-                                type="range"
-                                min={0}
-                                max={100}
-                                step={1}
-                                value={volumePercent}
-                                onChange={(e) => {
-                                    const newVolume = Number(e.target.value)
-                                    setVolume(newVolume)
-                                    if (newVolume > 0) setIsMuted(false)
-                                }}
-                                aria-label="Volume"
-                                className="rellui-audio-range rellui-audio-range--vertical"
-                                style={{ "--fill-percent": `${volumePercent}%` } as CSSPropertiesWithVars}
-                            />
-                        </div>
-                    )}
-
-                    <button
-                        type="button"
-                        onClick={() => setShowVolume(!showVolume)}
-                        aria-label="Volume"
-                        className={iconBtn()}
-                    >
-                        {isMuted || volume === 0 ? (
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth={2}>
-                                <path d="M11 5 6 9H2v6h4l5 4V5z" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="m17 9 4 6M21 9l-4 6" strokeLinecap="round" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth={2}>
-                                <path d="M11 5 6 9H2v6h4l5 4V5z" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M15.5 8.5a5 5 0 0 1 0 7" strokeLinecap="round" />
-                            </svg>
-                        )}
-                    </button>
+                        <button
+                            type="button"
+                            onClick={() => setShowVolume(!showVolume)}
+                            aria-label="Volume"
+                            className={iconBtn()}
+                        >
+                            {isMuted || volume === 0 ? (
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth={2}>
+                                    <path d="M11 5 6 9H2v6h4l5 4V5z" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="m17 9 4 6M21 9l-4 6" strokeLinecap="round" />
+                                </svg>
+                            ) : (
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth={2}>
+                                    <path d="M11 5 6 9H2v6h4l5 4V5z" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M15.5 8.5a5 5 0 0 1 0 7" strokeLinecap="round" />
+                                </svg>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-</Card>
-)
+        </Card>
+    )
 }

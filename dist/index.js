@@ -1452,7 +1452,7 @@ import { tv as tv31 } from "tailwind-variants";
 import { jsx as jsx32, jsxs as jsxs19 } from "react/jsx-runtime";
 var timeText = tv31({ base: "text-xs text-charcoal/40 tabular-nums" });
 var iconBtn = tv31({
-  base: "flex shrink-0 items-center justify-center text-charcoal/40 outline-none transition-colors hover:text-charcoal data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-accent"
+  base: "flex shrink-0 items-center justify-center text-charcoal/40 outline-none transition-colors hover:text-charcoal disabled:cursor-not-allowed disabled:opacity-40 data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-accent"
 });
 var popover6 = tv31({
   base: "absolute bottom-full mb-3 flex items-center justify-center rounded-full border border-sand bg-cream p-2 shadow-lg"
@@ -1472,6 +1472,7 @@ function AudioPlayer({ src, filename, className }) {
   const [volume, setVolume] = useState5(80);
   const [isMuted, setIsMuted] = useState5(false);
   const [showVolume, setShowVolume] = useState5(false);
+  const [downloading, setDownloading] = useState5(false);
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -1518,6 +1519,24 @@ function AudioPlayer({ src, filename, className }) {
     audio.currentTime = newTime;
     setCurrentTime(newTime);
   }
+  async function handleDownload() {
+    setDownloading(true);
+    try {
+      const res = await fetch(src);
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link2 = document.createElement("a");
+      link2.href = objectUrl;
+      link2.download = filename ?? "track";
+      document.body.appendChild(link2);
+      link2.click();
+      document.body.removeChild(link2);
+      URL.revokeObjectURL(objectUrl);
+    } catch {
+    } finally {
+      setDownloading(false);
+    }
+  }
   const scrubPercent = duration ? currentTime / duration * 100 : 0;
   const volumePercent = isMuted ? 0 : volume;
   return /* @__PURE__ */ jsxs19(Card, { className: `w-full max-w-lg p-5 pt-8 ${className ?? ""}`, children: [
@@ -1545,13 +1564,14 @@ function AudioPlayer({ src, filename, className }) {
       ] }),
       /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-3", children: [
         /* @__PURE__ */ jsx32("div", { className: "flex w-6 shrink-0 justify-center", children: /* @__PURE__ */ jsx32(
-          "a",
+          "button",
           {
-            href: src,
-            download: filename,
+            type: "button",
+            onClick: handleDownload,
+            disabled: downloading,
             "aria-label": "Download",
             className: iconBtn(),
-            children: /* @__PURE__ */ jsxs19("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
+            children: downloading ? /* @__PURE__ */ jsx32("svg", { viewBox: "0 0 24 24", width: "16", height: "16", className: "animate-spin", fill: "none", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ jsx32("path", { d: "M21 12a9 9 0 1 1-9-9", strokeLinecap: "round" }) }) : /* @__PURE__ */ jsxs19("svg", { viewBox: "0 0 24 24", width: "16", height: "16", fill: "none", stroke: "currentColor", strokeWidth: 2, children: [
               /* @__PURE__ */ jsx32("path", { d: "M12 3v12", strokeLinecap: "round" }),
               /* @__PURE__ */ jsx32("path", { d: "m7 11 5 5 5-5", strokeLinecap: "round", strokeLinejoin: "round" }),
               /* @__PURE__ */ jsx32("path", { d: "M5 21h14", strokeLinecap: "round" })
