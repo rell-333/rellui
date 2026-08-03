@@ -1548,7 +1548,7 @@ function AudioPlayer({ src, filename, className }) {
   }
   const scrubPercent = duration ? currentTime / duration * 100 : 0;
   const volumePercent = isMuted ? 0 : volume;
-  return /* @__PURE__ */ jsxs19(Card, { className: `w-full max-w-lg p-5 pt-8 ${className ?? ""}`, children: [
+  return /* @__PURE__ */ jsxs19(Card, { className: `w-full p-5 pt-8 ${className ?? ""}`, children: [
     /* @__PURE__ */ jsx32("audio", { ref: audioRef, src, preload: "metadata" }),
     /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-3", children: [
       /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-1", children: [

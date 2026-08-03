@@ -122,7 +122,7 @@ export function AudioPlayer({ src, filename, className }: AudioPlayerProps) {
     const volumePercent = isMuted ? 0 : volume
 
     return (
-        <Card className={`w-full max-w-lg p-5 pt-8 ${className ?? ""}`}>
+        <Card className={`w-full p-5 pt-8 ${className ?? ""}`}>
             <audio ref={audioRef} src={src} preload="metadata" />
 
             <div className="flex flex-col gap-3">
