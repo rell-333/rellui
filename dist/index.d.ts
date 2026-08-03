@@ -106,7 +106,7 @@ interface ModalDialogProps {
 }
 
 interface ChipProps extends Omit<HTMLAttributes<HTMLSpanElement>, "className"> {
-    variant?: "default" | "success" | "warning" | "danger" | "accented";
+    variant?: "default" | "success" | "warning" | "danger" | "accented" | "draft";
     size?: "sm" | "md" | "lg";
     onRemove?: () => void;
     className?: string;

@@ -10,6 +10,7 @@ const chip = tv({
             warning: "bg-warning/20 text-warning",
             danger: "bg-clay/10 text-clay",
             accented: "bg-indigo text-cream",
+            draft: "bg-charcoal/10 text-charcoal/60",
         },
         size: {
             sm: "px-2 py-0.5 text-[10px]",
@@ -38,7 +39,7 @@ const removeBtn = tv({
 })
 
 export interface ChipProps extends Omit<HTMLAttributes<HTMLSpanElement>, "className"> {
-    variant?: "default" | "success" | "warning" | "danger" | "accented"
+    variant?: "default" | "success" | "warning" | "danger" | "accented" | "draft"
     size?: "sm" | "md" | "lg"
     onRemove?: () => void
     className?: string

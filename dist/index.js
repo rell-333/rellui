@@ -206,7 +206,8 @@ var chip = tv5({
       success: "bg-success/15 text-success",
       warning: "bg-warning/20 text-warning",
       danger: "bg-clay/10 text-clay",
-      accented: "bg-indigo text-cream"
+      accented: "bg-indigo text-cream",
+      draft: "bg-charcoal/10 text-charcoal/60"
     },
     size: {
       sm: "px-2 py-0.5 text-[10px]",
